@@ -1,4 +1,4 @@
-const ENV_KEY = 'A'
+const ENV_KEY = 'B'
 const AWS_ACCESS_KEY_ID = process.env[`AWS_ACCESS_KEY_ID_${ENV_KEY}`]
 const AWS_S3_BUCKET = process.env[`AWS_S3_BUCKET_${ENV_KEY}`]
 const AWS_S3_SIGNED_URL = process.env[`AWS_S3_SIGNED_URL_${ENV_KEY}`]
