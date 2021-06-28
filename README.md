@@ -1,3 +1,24 @@
+# Next Server - Playground
+
+## Requirements
+
+- [Node 10+](https://nodejs.org/)
+
+## Installation
+
+- Open Terminal (Replace <NAME_OF_FOLDER> with directory to install.) and run the following:
+  - `git clone https://github.com/jmlivingston/convert-file <NAME_OF_FOLDER>`
+  - `cd <NAME_OF_FOLDER>`
+  - `npm install` OR `yarn` if installed.
+- Create `.env.local` file in root directory <NAME_OF_FOLDER>
+- Get values from another developer and copy.
+
+## Running
+
+- `npm start` OR `yarn start` if installed.
+
+## Next Documentation
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
