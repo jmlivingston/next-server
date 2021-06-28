@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import React, { useState } from 'react'
 import { ENV_KEY } from '../utility/CONSTANTS'
 
@@ -126,7 +127,7 @@ function ConvertFile() {
       {image && (
         <>
           <hr />
-          <img src={image} />
+          <Image src={image} alt="Test image" width={291} height={348} />
         </>
       )}
     </>

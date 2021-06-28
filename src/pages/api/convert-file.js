@@ -20,12 +20,12 @@ export default async function handler(req, res) {
         signatureVersion: AWS_SIGNATURE_VERSION,
       })
 
+      console.log(path.join(path.resolve(), 'sample.jpg'))
+
       const params = {
         Bucket: AWS_S3_BUCKET,
         Key: fileName,
-        Body: fs.createReadStream(
-          path.join(path.resolve(), 'pages/api/dummy.jpg')
-        ),
+        Body: fs.createReadStream(path.join(path.resolve(), 'sample.jpg')),
       }
 
       await s3Client.upload(params).promise()
