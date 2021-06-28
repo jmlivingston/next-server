@@ -1,4 +1,4 @@
-# Next Server - Playground
+# Next.js - Playground
 
 ## Requirements
 
