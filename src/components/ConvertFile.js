@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { ENV_KEY } from '../utility/CONSTANTS'
 
 function ConvertFile() {
@@ -65,16 +65,18 @@ function ConvertFile() {
 
   async function onChange(event) {
     try {
-      addUpdate('1 - Get S3 Predefined URL')
+      addUpdate('1 - Getting S3 Predefined URL.')
       const { fileName, url } = await getS3AssignedUrl()
       console.log({ fileName, url })
-      addUpdate('2 - Upload file to S3 using Predefined URL')
+      addUpdate({ fileName, url })
+      addUpdate('2 - Uploading file to S3 using Predefined URL.')
       const uploadFileResult = await uploadFile({
         file: event.target.files[0],
         url,
       })
+      addUpdate({ uploadFileResult })
       if (uploadFileResult) {
-        addUpdate('3 - Call to convert and get file')
+        addUpdate('3 - Calling to convert and get file.')
         const dataUri = await convertFile({
           fileName: fileName.replace('heic', 'jpg'),
         })
@@ -109,19 +111,18 @@ function ConvertFile() {
       {updates.length > 0 && (
         <>
           <hr />
-          <ul>
-            {updates.map((update, index) => (
-              <li key={index}>
+
+          {updates.map((update, index) => (
+            <Fragment key={index}>
+              {typeof update === 'string' ? (
+                <div>{update}</div>
+              ) : (
                 <pre>
-                  <code>
-                    {typeof update === 'string'
-                      ? update
-                      : JSON.stringify(update)}
-                  </code>
+                  <code>{JSON.stringify(update, null, 2)}</code>
                 </pre>
-              </li>
-            ))}
-          </ul>
+              )}
+            </Fragment>
+          ))}
         </>
       )}
       {image && (

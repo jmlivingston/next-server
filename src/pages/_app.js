@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { ROUTES } from '../utility/CONSTANTS'
+import './global.css'
 
 function MyApp({ Component, pageProps }) {
   const { pathname } = useRouter()
