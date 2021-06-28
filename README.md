@@ -7,7 +7,7 @@
 ## Installation
 
 - Open Terminal (Replace <NAME_OF_FOLDER> with directory to install.) and run the following:
-  - `git clone https://github.com/jmlivingston/convert-file <NAME_OF_FOLDER>`
+  - `git clone https://github.com/jmlivingston/next-temp <NAME_OF_FOLDER>`
   - `cd <NAME_OF_FOLDER>`
   - `npm install` OR `yarn` if installed.
 - Create `.env.local` file in root directory <NAME_OF_FOLDER>
