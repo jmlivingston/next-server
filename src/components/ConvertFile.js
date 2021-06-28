@@ -3,7 +3,6 @@ import React, { Fragment, useState } from 'react'
 import { ENV_KEY } from '../utility/CONSTANTS'
 
 function ConvertFile() {
-  const [envKey, setEnvKey] = useState(ENV_KEY)
   const [updates, setUpdates] = useState([])
   const [image, setImage] = useState()
 
@@ -64,6 +63,8 @@ function ConvertFile() {
   }
 
   async function onChange(event) {
+    setUpdates([])
+    setImage()
     try {
       addUpdate('1 - Getting S3 Predefined URL.')
       const { fileName, url } = await getS3AssignedUrl()
@@ -92,16 +93,12 @@ function ConvertFile() {
 
   return (
     <>
-      <h1>Environment: {envKey}</h1>
-      <button
-        className="btn btn-primary mb-3"
-        onClick={() => {
-          setUpdates([])
-          setEnvKey(envKey === 'A' ? 'B' : 'A')
-        }}>
-        Toggle Environment
-      </button>
-      <br />
+      <h1>Environment: {ENV_KEY}</h1>
+      <figure>
+        <blockquote className="blockquote">
+          Note: Change in Utility/Constants.js
+        </blockquote>
+      </figure>
       <input
         type="file"
         accept="image/jpeg,image/heic"
@@ -111,7 +108,6 @@ function ConvertFile() {
       {updates.length > 0 && (
         <>
           <hr />
-
           {updates.map((update, index) => (
             <Fragment key={index}>
               {typeof update === 'string' ? (
