@@ -11,7 +11,7 @@
   - `cd <NAME_OF_FOLDER>`
   - `npm install` OR `yarn` if installed.
 - Create `.env.local` file in root directory <NAME_OF_FOLDER>
-- Get values from another developer and copy.
+- Get values from another developer and paste into .env.local.
 
 ## Running
 
