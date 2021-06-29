@@ -19,7 +19,7 @@ function ConvertFile() {
     )
   }
 
-  async function getS3AssignedUrl() {
+  async function getS3SignedUrl() {
     const s3SignedUrlResponse = await fetch('/api/aws-s3-signed-url', {
       method: 'POST',
       body: JSON.stringify({
@@ -30,10 +30,13 @@ function ConvertFile() {
         'Content-Type': 'application/json',
       },
     })
-    const {
-      data: { url, fileName },
-    } = await s3SignedUrlResponse.json()
-    return { url, fileName }
+
+    if(s3SignedUrlResponse.ok) {
+      const s3SignedUrlJson = await s3SignedUrlResponse.json()
+      return { url: s3SignedUrlJson.data.url, fileName: s3SignedUrlJson.data.fileName }
+    } else {
+      throw new Error('Error getting S3 Signed URL')
+    }
   }
 
   async function uploadFile({ file, url }) {
@@ -67,8 +70,7 @@ function ConvertFile() {
     setImage()
     try {
       addUpdate('1 - Getting S3 Predefined URL.')
-      const { fileName, url } = await getS3AssignedUrl()
-      console.log({ fileName, url })
+      const { fileName, url } = await getS3SignedUrl()
       addUpdate({ fileName, url })
       addUpdate('2 - Uploading file to S3 using Predefined URL.')
       const uploadFileResult = await uploadFile({

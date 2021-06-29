@@ -12,11 +12,24 @@ export default async function handler(req, res) {
     const { contentType, extension } = req.body
     const fileName = `${uuidv4()}.${extension}`
 
-    const s3Client = new AWS.S3({
-      accessKeyId: AWS_ACCESS_KEY_ID,
-      secretAccessKey: AWS_SECRET_ACCESS_KEY,
-      signatureVersion: AWS_SIGNATURE_VERSION,
-    })
+    let s3Params =
+      AWS_ACCESS_KEY_ID && AWS_SECRET_ACCESS_KEY
+        ? {
+            accessKeyId: AWS_ACCESS_KEY_ID,
+            secretAccessKey: AWS_SECRET_ACCESS_KEY,
+          }
+        : undefined
+
+    if (AWS_SIGNATURE_VERSION) {
+      s3Params = s3Params
+        ? {
+            ...s3Params,
+            ['signatureVersion']: AWS_SIGNATURE_VERSION,
+          }
+        : { signatureVersion: AWS_SIGNATURE_VERSION }
+    }
+
+    const s3Client = new AWS.S3(s3Params)
 
     const url = await s3Client.getSignedUrlPromise('putObject', {
       Bucket: AWS_S3_BUCKET,
