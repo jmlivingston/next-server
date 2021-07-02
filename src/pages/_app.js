@@ -40,6 +40,17 @@ function MyApp({ Component, pageProps }) {
                   </a>
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link href={ROUTES.JENKINS}>
+                  <a
+                    className={`nav-link${
+                      pathname === ROUTES.JENKINS ? ' active' : ''
+                    }`}
+                    href={ROUTES.JENKINS}>
+                    Jenkins
+                  </a>
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

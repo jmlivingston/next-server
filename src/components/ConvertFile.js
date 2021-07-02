@@ -31,9 +31,12 @@ function ConvertFile() {
       },
     })
 
-    if(s3SignedUrlResponse.ok) {
+    if (s3SignedUrlResponse.ok) {
       const s3SignedUrlJson = await s3SignedUrlResponse.json()
-      return { url: s3SignedUrlJson.data.url, fileName: s3SignedUrlJson.data.fileName }
+      return {
+        url: s3SignedUrlJson.data.url,
+        fileName: s3SignedUrlJson.data.fileName,
+      }
     } else {
       throw new Error('Error getting S3 Signed URL')
     }
@@ -70,7 +73,11 @@ function ConvertFile() {
     setImage()
     try {
       addUpdate('1 - Getting S3 Predefined URL.')
-      const { fileName, url } = await getS3SignedUrl()
+      // const { fileName, url } = await getS3SignedUrl()
+      const fileName = '183db63e-ca3e-4715-a51c-1676b030a49c.heic'
+      const url =
+        'https://mvj-api-dev4-mvj-upload-convert-photo.s3.amazonaws.com/183db63e-ca3e-4715-a51c-1676b030a49c.heic?Content-Type=image%2Fheic&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIATI7VU2MY7KA4YTB4%2F20210629%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210629T143740Z&X-Amz-Expires=6000&X-Amz-Signature=c5c88eddc57d2e60a8b5cfb207d8c0e0c65fe9ee0a4f8df6b5e60d897010d5c5&X-Amz-SignedHeaders=host'
+
       addUpdate({ fileName, url })
       addUpdate('2 - Uploading file to S3 using Predefined URL.')
       const uploadFileResult = await uploadFile({

@@ -3,9 +3,15 @@ const AWS_ACCESS_KEY_ID = process.env[`AWS_ACCESS_KEY_ID_${ENV_KEY}`]
 const AWS_S3_BUCKET = process.env[`AWS_S3_BUCKET_${ENV_KEY}`]
 const AWS_SECRET_ACCESS_KEY = process.env[`AWS_SECRET_ACCESS_KEY_${ENV_KEY}`]
 const AWS_SIGNATURE_VERSION = 'v4'
+const NEXT_PUBLIC_JENKINS_URL = process.env.NEXT_PUBLIC_JENKINS_URL
+const NEXT_PUBLIC_JENKINS_USER_TOKEN = process.env.NEXT_PUBLIC_JENKINS_URL
+
+console.log(process.env)
+
 const ROUTES = Object.freeze({
   HOME: '/',
   CONVERT_FILE: '/convert-file',
+  JENKINS: '/jenkins',
 })
 
 export {
@@ -14,5 +20,7 @@ export {
   AWS_SECRET_ACCESS_KEY,
   AWS_SIGNATURE_VERSION,
   ENV_KEY,
+  NEXT_PUBLIC_JENKINS_URL,
+  NEXT_PUBLIC_JENKINS_USER_TOKEN,
   ROUTES,
 }

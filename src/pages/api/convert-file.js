@@ -46,7 +46,8 @@ export default async function handler(req, res) {
       res.status(405).send()
     }
   } catch (error) {
-    res.status(500).send().json({
+    res.status(500).send({
+      error,
       isSuccessful: false,
     })
   }
