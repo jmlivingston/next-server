@@ -12,9 +12,9 @@ function MyApp({ Component, pageProps }) {
     <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container">
-          <Link href={ROUTES.HOME}>
-            <a className="navbar-brand" href={ROUTES.HOME}>
-              Home
+          <Link href={ROUTES.HOME.path}>
+            <a className="navbar-brand" href={ROUTES.HOME.path}>
+              {ROUTES.HOME.display}
             </a>
           </Link>
           <button
@@ -29,28 +29,23 @@ function MyApp({ Component, pageProps }) {
           <div
             className={`collapse navbar-collapse${isNavOpen ? ' show' : ''}`}>
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <Link href={ROUTES.CONVERT_FILE}>
-                  <a
-                    className={`nav-link${
-                      pathname === ROUTES.CONVERT_FILE ? ' active' : ''
-                    }`}
-                    href={ROUTES.CONVERT_FILE}>
-                    Convert File
-                  </a>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link href={ROUTES.JENKINS}>
-                  <a
-                    className={`nav-link${
-                      pathname === ROUTES.JENKINS ? ' active' : ''
-                    }`}
-                    href={ROUTES.JENKINS}>
-                    Jenkins
-                  </a>
-                </Link>
-              </li>
+              {Object.entries(ROUTES)
+                .filter(([key, route]) => !route.disabled && key !== 'HOME')
+                .map(([key, route]) => {
+                  return (
+                    <li className="nav-item" key={key}>
+                      <Link href={route.path}>
+                        <a
+                          className={`nav-link${
+                            pathname === route.path ? ' active' : ''
+                          }`}
+                          href={route.path}>
+                          {route.display}
+                        </a>
+                      </Link>
+                    </li>
+                  )
+                })}
             </ul>
           </div>
         </div>
