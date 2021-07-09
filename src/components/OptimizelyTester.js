@@ -1,14 +1,22 @@
-import React from 'react'
 import Head from 'next/head'
-import { OPTIMIZELY_EXPERIMENTS } from '../utility/CONSTANTS'
+import React from 'react'
+import { getVariables } from '../utility/optimizelyUtility'
 import {
-  OptimizelyProvider,
   OptimizelyExperiment,
+  OptimizelyProvider,
   OptimizelyVariation,
 } from './optimizely'
 import OptimizelyTesterNested from './OptimizelyTesterNested'
 
 const Optimizely = () => {
+  const isMock = true
+
+  const { EXPERIMENT_ID, MOCKS, VARIATION1, VARIATION2, VARIATION3 } =
+    getVariables({
+      isMock,
+      // variable: 123,
+    })
+
   return (
     <>
       <Head>
@@ -16,59 +24,21 @@ const Optimizely = () => {
         <script
           src={`https://cdn.optimizely.com/js/${process.env.NEXT_PUBLIC_OPTIMIZELY_SNIPPET_ID}.js`}></script>
       </Head>
-      <OptimizelyProvider>
-        <OptimizelyExperiment
-          experiment={
-            OPTIMIZELY_EXPERIMENTS[
-              process.env.NEXT_PUBLIC_OPTIMIZELY_EXPERIMENT
-            ].id
-          }
-          overrideVariation={
-            OPTIMIZELY_EXPERIMENTS[
-              process.env.NEXT_PUBLIC_OPTIMIZELY_EXPERIMENT
-            ].variations[process.env.NEXT_PUBLIC_OPTIMIZELY_VARIATION3]
-          }>
-          <OptimizelyVariation
-            experiment={
-              OPTIMIZELY_EXPERIMENTS[
-                process.env.NEXT_PUBLIC_OPTIMIZELY_EXPERIMENT
-              ].id
-            }
-            variation={
-              OPTIMIZELY_EXPERIMENTS[
-                process.env.NEXT_PUBLIC_OPTIMIZELY_EXPERIMENT
-              ].variations[process.env.NEXT_PUBLIC_OPTIMIZELY_VARIATION1].id
-            }>
-            Variation 0
-          </OptimizelyVariation>
-          <OptimizelyVariation
-            experiment={
-              OPTIMIZELY_EXPERIMENTS[
-                process.env.NEXT_PUBLIC_OPTIMIZELY_EXPERIMENT
-              ].id
-            }
-            variation={
-              OPTIMIZELY_EXPERIMENTS[
-                process.env.NEXT_PUBLIC_OPTIMIZELY_EXPERIMENT
-              ].variations[process.env.NEXT_PUBLIC_OPTIMIZELY_VARIATION2].id
-            }>
-            Variation 1
-          </OptimizelyVariation>
-          <OptimizelyVariation
-            experiment={
-              OPTIMIZELY_EXPERIMENTS[
-                process.env.NEXT_PUBLIC_OPTIMIZELY_EXPERIMENT
-              ].id
-            }
-            variation={
-              OPTIMIZELY_EXPERIMENTS[
-                process.env.NEXT_PUBLIC_OPTIMIZELY_EXPERIMENT
-              ].variations[process.env.NEXT_PUBLIC_OPTIMIZELY_VARIATION3].id
-            }>
-            Variation 2
-          </OptimizelyVariation>
-          <OptimizelyTesterNested />
+      <OptimizelyProvider overrideExperiments={isMock ? MOCKS : undefined}>
+        <OptimizelyExperiment experiment={EXPERIMENT_ID}>
+          {(variation) => <>OptimizelyExperiment: {variation}</>}
         </OptimizelyExperiment>
+        <br />
+        <OptimizelyVariation experiment={EXPERIMENT_ID} variation={VARIATION1}>
+          OptimizelyVariation: Variation 0
+        </OptimizelyVariation>
+        <OptimizelyVariation experiment={EXPERIMENT_ID} variation={VARIATION2}>
+          OptimizelyVariation: Variation 1
+        </OptimizelyVariation>
+        <OptimizelyVariation experiment={EXPERIMENT_ID} variation={VARIATION3}>
+          OptimizelyVariation: Variation 2
+        </OptimizelyVariation>
+        <OptimizelyTesterNested />
       </OptimizelyProvider>
     </>
   )

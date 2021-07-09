@@ -1,33 +1,33 @@
-import { createContext, useState } from 'react'
+import PropTypes from 'prop-types'
+import { createContext, useEffect, useState } from 'react'
 
 const OptimizelyContext = createContext()
 
-const OptimizelyProvider = ({ children }) => {
+const OptimizelyProvider = ({ children, overrideExperiments }) => {
   const [data, setData] = useState({ experiments: {} })
 
-  const initExperiment = ({ experiment, overrideVariation }) => {
-    setData({
-      experiments: {
-        ...data.experiments,
-        [experiment]: {
-          variation:
-            overrideVariation ||
-            window.optimizely.get('state').getExperimentStates()[experiment]
-              .variation,
-        },
-      },
-    })
-  }
+  useEffect(() => {
+    const experiments =
+      overrideExperiments ||
+      window?.optimizely?.get('state')?.getExperimentStates()
+    setData({ experiments })
+  }, [])
 
   const getExperiment = ({ experiment }) => {
     return data.experiments?.[experiment]
   }
 
   return (
-    <OptimizelyContext.Provider value={{ getExperiment, initExperiment }}>
+    <OptimizelyContext.Provider
+      value={{ getExperiment, experiments: data.experiments }}>
       {children}
     </OptimizelyContext.Provider>
   )
+}
+
+OptimizelyProvider.propTypes = {
+  children: PropTypes.node,
+  overrideExperiments: PropTypes.shape({}),
 }
 
 export { OptimizelyContext, OptimizelyProvider }

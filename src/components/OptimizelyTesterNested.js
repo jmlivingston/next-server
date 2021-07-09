@@ -8,9 +8,9 @@ const OptimizelyTesterNested = ({}) => {
   return (
     <div>
       <hr />
-      Nested
+      Nested: useExperiment
       <br />
-      {JSON.stringify(variation)}
+      {variation}
     </div>
   )
 }
