@@ -1,8 +1,9 @@
 import { useContext } from 'react'
-import OptimizelyContext from './OptimizelyContext'
+import { OptimizelyContext } from './OptimizelyContext'
 
-const OptimizelyVariation = ({ children, variation }) => {
-  const { variation: contextVariation } = useContext(OptimizelyContext)
+const OptimizelyVariation = ({ children, experiment, variation }) => {
+  const { getExperiment } = useContext(OptimizelyContext)
+  const contextVariation = getExperiment({ experiment })?.variation
   return variation === contextVariation?.id ? children : null
 }
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import useExperiment from './optimizely/useExperiment'
+import { useExperiment } from './optimizely'
 
 const OptimizelyTesterNested = ({}) => {
   const [variation] = useExperiment(

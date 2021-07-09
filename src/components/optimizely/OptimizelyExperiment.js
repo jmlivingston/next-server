@@ -1,21 +1,14 @@
 import PropTypes from 'prop-types'
-import React, { useEffect, useState } from 'react'
-import OptimizelyContext from './OptimizelyContext'
+import React, { useContext, useEffect } from 'react'
+import { OptimizelyContext } from './OptimizelyContext'
 
 const OptimizelyExperiment = ({ children, experiment, overrideVariation }) => {
-  const [variation, setVariation] = useState()
+  const { initExperiment } = useContext(OptimizelyContext)
   useEffect(() => {
-    const variation =
-      overrideVariation ||
-      window.optimizely.get('state').getExperimentStates()[experiment].variation
-    setVariation(variation)
+    initExperiment({ experiment, overrideVariation })
   }, [])
-  return (
-    <OptimizelyContext.Provider
-      value={{ experiment: { [experiment]: { variation } }, variation }}>
-      {children}
-    </OptimizelyContext.Provider>
-  )
+
+  return children
 }
 
 OptimizelyExperiment.propTypes = {

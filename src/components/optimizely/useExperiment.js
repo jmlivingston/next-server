@@ -1,9 +1,9 @@
 import { useContext } from 'react'
-import OptimizelyContext from './OptimizelyContext'
+import { OptimizelyContext } from './OptimizelyContext'
 
 const useExperiment = (experiment) => {
-  const { experiment: optimizelyExperiment } = useContext(OptimizelyContext)
-  return [optimizelyExperiment?.[experiment]?.variation?.name]
+  const { getExperiment } = useContext(OptimizelyContext)
+  return [getExperiment({ experiment })?.variation?.name]
 }
 
 export default useExperiment
