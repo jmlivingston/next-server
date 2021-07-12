@@ -11,7 +11,7 @@ const OptimizelyProvider = ({ children, overrideExperiments }) => {
       overrideExperiments ||
       window?.optimizely?.get('state')?.getExperimentStates()
     setData({ experiments })
-  }, [])
+  }, [overrideExperiments])
 
   const getExperiment = ({ experiment }) => {
     return data.experiments?.[experiment]
