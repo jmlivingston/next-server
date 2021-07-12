@@ -18,7 +18,7 @@ const ROUTES = Object.freeze({
 })
 
 const OPTIMIZELY_EXPERIMENTS = Object.freeze({
-  [process.env.NEXT_PUBLIC_OPTIMIZELY_EXPERIMENT]: {
+  [process.env.NEXT_PUBLIC_OPTIMIZELY_EXPERIMENT_ID]: {
     id: process.env.NEXT_PUBLIC_OPTIMIZELY_EXPERIMENT_ID,
     name: process.env.NEXT_PUBLIC_OPTIMIZELY_EXPERIMENT_NAME,
     variations: {

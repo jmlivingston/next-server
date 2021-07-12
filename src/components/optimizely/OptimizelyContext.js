@@ -14,7 +14,7 @@ const OptimizelyProvider = ({ children, overrideExperiments }) => {
   }, [overrideExperiments])
 
   const getExperiment = ({ experiment }) => {
-    return data.experiments?.[experiment]
+    return data.experiments?.[experiment?.toString()]
   }
 
   return (

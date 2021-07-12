@@ -1,7 +1,7 @@
 import { OPTIMIZELY_EXPERIMENTS } from './CONSTANTS'
 
 const getMocks = ({ experiment, variation }) => ({
-  [experiment]: {
+  [experiment.toString()]: {
     variation: {
       id: variation,
       name: `Mock Variation: ${variation}`,
@@ -14,26 +14,36 @@ const getMocks = ({ experiment, variation }) => ({
 
 const getVariables = ({ isMock, experiment, variation }) => {
   const mocks = getMocks({ experiment, variation })
+  const activeExperiment = OPTIMIZELY_EXPERIMENTS?.[experiment]
+
   return {
     MOCKS: isMock ? mocks : undefined,
-    EXPERIMENT_ID: isMock
-      ? mocks?.[experiment]?.id
-      : OPTIMIZELY_EXPERIMENTS?.[experiment]?.id,
-    VARIATION1: isMock
-      ? 201
-      : OPTIMIZELY_EXPERIMENTS?.[experiment]?.variations[
-          process.env.NEXT_PUBLIC_OPTIMIZELY_VARIATION1
-        ].id,
-    VARIATION2: isMock
-      ? 202
-      : OPTIMIZELY_EXPERIMENTS?.[experiment]?.variations[
-          process.env.NEXT_PUBLIC_OPTIMIZELY_VARIATION2
-        ].id,
-    VARIATION3: isMock
-      ? 203
-      : OPTIMIZELY_EXPERIMENTS?.[experiment]?.variations[
-          process.env.NEXT_PUBLIC_OPTIMIZELY_VARIATION3
-        ].id,
+    EXPERIMENTS: isMock
+      ? {
+          [mocks?.[experiment]?.id]: {
+            EXPERIMENT_ID: mocks?.[experiment]?.id,
+            VARIATION1: 201,
+            VARIATION2: 202,
+            VARIATION3: 203,
+          },
+        }
+      : {
+          [activeExperiment?.id]: {
+            EXPERIMENT_ID: activeExperiment?.id,
+            VARIATION1:
+              activeExperiment.variations[
+                process.env.NEXT_PUBLIC_OPTIMIZELY_VARIATION1
+              ].id,
+            VARIATION2:
+              activeExperiment.variations[
+                process.env.NEXT_PUBLIC_OPTIMIZELY_VARIATION2
+              ].id,
+            VARIATION3:
+              activeExperiment.variations[
+                process.env.NEXT_PUBLIC_OPTIMIZELY_VARIATION3
+              ].id,
+          },
+        },
   }
 }
 
