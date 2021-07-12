@@ -12,9 +12,17 @@ const getMocks = ({ experiment, variation }) => ({
   },
 })
 
-const getVariables = ({ isMock, experiment, variation }) => {
+const getVariables = ({ experiment, isMock }) => {
+  const variation = Object.values(
+    OPTIMIZELY_EXPERIMENTS?.[experiment]?.variations
+  )?.[0]?.id
   const mocks = getMocks({ experiment, variation })
   const activeExperiment = OPTIMIZELY_EXPERIMENTS?.[experiment]
+
+  const variations = Object.entries(activeExperiment.variations).reduce(
+    (acc, [key, variation]) => ({ ...acc, [key]: variation.id }),
+    {}
+  )
 
   return {
     MOCKS: isMock ? mocks : undefined,
@@ -22,26 +30,13 @@ const getVariables = ({ isMock, experiment, variation }) => {
       ? {
           [mocks?.[experiment]?.id]: {
             EXPERIMENT_ID: mocks?.[experiment]?.id,
-            VARIATION1: 201,
-            VARIATION2: 202,
-            VARIATION3: 203,
+            VARIATIONS: variations,
           },
         }
       : {
           [activeExperiment?.id]: {
             EXPERIMENT_ID: activeExperiment?.id,
-            VARIATION1:
-              activeExperiment.variations[
-                process.env.NEXT_PUBLIC_OPTIMIZELY_VARIATION1
-              ].id,
-            VARIATION2:
-              activeExperiment.variations[
-                process.env.NEXT_PUBLIC_OPTIMIZELY_VARIATION2
-              ].id,
-            VARIATION3:
-              activeExperiment.variations[
-                process.env.NEXT_PUBLIC_OPTIMIZELY_VARIATION3
-              ].id,
+            VARIATIONS: variations,
           },
         },
   }

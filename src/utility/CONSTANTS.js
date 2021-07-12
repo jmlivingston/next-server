@@ -17,26 +17,9 @@ const ROUTES = Object.freeze({
   OPTIMIZELY: { display: 'Optimizely', path: '/reservations/start' },
 })
 
-const OPTIMIZELY_EXPERIMENTS = Object.freeze({
-  [process.env.NEXT_PUBLIC_OPTIMIZELY_EXPERIMENT_ID]: {
-    id: process.env.NEXT_PUBLIC_OPTIMIZELY_EXPERIMENT_ID,
-    name: process.env.NEXT_PUBLIC_OPTIMIZELY_EXPERIMENT_NAME,
-    variations: {
-      [process.env.NEXT_PUBLIC_OPTIMIZELY_VARIATION1]: {
-        id: process.env.NEXT_PUBLIC_OPTIMIZELY_VARIATION1_ID,
-        name: process.env.NEXT_PUBLIC_OPTIMIZELY_VARIATION1_NAME,
-      },
-      [process.env.NEXT_PUBLIC_OPTIMIZELY_VARIATION2]: {
-        id: process.env.NEXT_PUBLIC_OPTIMIZELY_VARIATION2_ID,
-        name: process.env.NEXT_PUBLIC_OPTIMIZELY_VARIATION2_NAME,
-      },
-      [process.env.NEXT_PUBLIC_OPTIMIZELY_VARIATION3]: {
-        id: process.env.NEXT_PUBLIC_OPTIMIZELY_VARIATION3_ID,
-        name: process.env.NEXT_PUBLIC_OPTIMIZELY_VARIATION3_NAME,
-      },
-    },
-  },
-})
+const OPTIMIZELY_EXPERIMENTS = JSON.parse(
+  process.env.NEXT_PUBLIC_OPTIMIZELY_EXPERIMENTS
+)
 
 export {
   AWS_ACCESS_KEY_ID,

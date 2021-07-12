@@ -14,16 +14,11 @@ const Optimizely = () => {
   const [variables, setVariables] = useState()
 
   useEffect(() => {
-    const experiment = isMock
-      ? '101'
-      : process.env.NEXT_PUBLIC_OPTIMIZELY_EXPERIMENT_ID
+    const experiment = process.env.NEXT_PUBLIC_OPTIMIZELY_EXPERIMENT_ID
     setExperiment(experiment)
-    const variation = isMock ? 201 : undefined
-
     const variables = getVariables({
       experiment,
       isMock,
-      variation,
     })
 
     setVariables(variables)
@@ -64,21 +59,16 @@ const Optimizely = () => {
           <OptimizelyExperiment experiment={currentExperiment?.EXPERIMENT_ID}>
             {(variation) => <div>OptimizelyExperiment: {variation}</div>}
           </OptimizelyExperiment>
-          <OptimizelyVariation
-            experiment={currentExperiment?.EXPERIMENT_ID}
-            variation={currentExperiment?.VARIATION1}>
-            <div>OptimizelyVariation: {currentExperiment?.VARIATION1}</div>
-          </OptimizelyVariation>
-          <OptimizelyVariation
-            experiment={currentExperiment?.EXPERIMENT_ID}
-            variation={currentExperiment?.VARIATION2}>
-            <div>OptimizelyVariation: {currentExperiment?.VARIATION2}</div>
-          </OptimizelyVariation>
-          <OptimizelyVariation
-            experiment={currentExperiment?.EXPERIMENT_ID}
-            variation={currentExperiment?.VARIATION3}>
-            <div>OptimizelyVariation: {currentExperiment?.VARIATION3}</div>
-          </OptimizelyVariation>
+          {Object.entries(currentExperiment?.VARIATIONS)?.map(
+            ([key, variation]) => (
+              <OptimizelyVariation
+                experiment={currentExperiment?.EXPERIMENT_ID}
+                key={key}
+                variation={variation}>
+                <div>OptimizelyVariation: {variation}</div>
+              </OptimizelyVariation>
+            )
+          )}
           <Nested />
           <hr />
           <pre>
@@ -89,7 +79,13 @@ const Optimizely = () => {
               <hr />
               Note: Append query string to URL to override variation.
               <br />
-              For example: ?optimizely_x={variables?.VARIATION1}.
+              For example: ?optimizely_x=
+              {
+                currentExperiment?.VARIATIONS?.[
+                  Object.keys(currentExperiment?.VARIATIONS)[0]
+                ]
+              }
+              .
             </>
           )}
         </OptimizelyProvider>
