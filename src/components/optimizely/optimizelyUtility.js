@@ -15,5 +15,16 @@ const getMocks = ({ experiment, isMock, variation }) => {
   return mocks
 }
 
-// eslint-disable-next-line import/prefer-default-export
-export { getMocks }
+const isVariationActive = ({
+  config,
+  experiment,
+  sourceVariation,
+  targetVariation,
+}) => {
+  const isActive =
+    sourceVariation ===
+    config.experiments[experiment].variations[targetVariation].name
+  return isActive
+}
+
+export { getMocks, isVariationActive }

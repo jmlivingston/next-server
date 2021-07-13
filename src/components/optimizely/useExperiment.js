@@ -6,7 +6,8 @@ const useExperiment = (experiment) => {
   const { getExperiment } = useContext(OptimizelyContext)
   let experimentName
   try {
-    experimentName = getExperiment({ experiment })?.variation.name
+    experimentName = getExperiment({ experiment: experiment.toString() })
+      ?.variation.name
   } catch (error) {
     // TODO: Add logging
   }
