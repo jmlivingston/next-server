@@ -14,7 +14,7 @@ const OptimizelyTester = () => {
   const [mocks, setMocks] = useState()
   // Get first experiment in config or hard code to use another
   const experiment = Object.keys(OPTIMIZELY_CONFIG.experiments)[0]
-  const activeExperiment = OPTIMIZELY_CONFIG?.experiments?.[experiment]
+  const activeExperiment = OPTIMIZELY_CONFIG.experiments[experiment]
 
   useEffect(() => {
     const queryString = window.location.search
@@ -25,8 +25,7 @@ const OptimizelyTester = () => {
         return { ...acc, [values[0]]: values[1] }
       }, {})
     const variation =
-      queryString.optimizely_x ||
-      Object.keys(OPTIMIZELY_CONFIG.experiments[experiment]?.variations)[0]
+      queryString.optimizely_x || Object.keys(activeExperiment.variations)[0]
     const mocks = getMocks({
       experiment,
       isMock,

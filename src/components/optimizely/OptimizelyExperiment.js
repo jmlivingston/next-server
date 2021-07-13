@@ -5,7 +5,7 @@ import { OptimizelyContext } from './OptimizelyContext'
 const OptimizelyExperiment = ({ children, experiment }) => {
   const { getExperiment } = useContext(OptimizelyContext)
   const activeExperiment = getExperiment({ experiment })
-  return children(activeExperiment?.variation?.name || null)
+  return children(activeExperiment?.variation.name || null)
 }
 
 OptimizelyExperiment.propTypes = {

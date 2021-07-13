@@ -8,12 +8,12 @@ const OptimizelyProvider = ({ children, mocks }) => {
 
   useEffect(() => {
     const experiments =
-      mocks || window?.optimizely?.get('state')?.getExperimentStates()
+      mocks || window.optimizely?.get('state').getExperimentStates()
     setData({ experiments })
   }, [mocks])
 
   const getExperiment = ({ experiment }) => {
-    return data.experiments?.[experiment?.toString()]
+    return data.experiments?.[experiment.toString()]
   }
 
   return (
