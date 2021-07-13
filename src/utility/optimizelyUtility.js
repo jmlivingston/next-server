@@ -1,5 +1,3 @@
-import { OPTIMIZELY_EXPERIMENTS } from './CONSTANTS'
-
 const getMocks = ({ experiment, variation }) => ({
   [experiment.toString()]: {
     variation: {
@@ -12,28 +10,17 @@ const getMocks = ({ experiment, variation }) => ({
   },
 })
 
-const getVariables = ({ experiment, isMock }) => {
-  const variation = Object.values(
-    OPTIMIZELY_EXPERIMENTS?.[experiment]?.variations
-  )?.[0]?.id
-  const mocks = getMocks({ experiment, variation })
-  const activeExperiment = OPTIMIZELY_EXPERIMENTS?.[experiment]
-  return {
-    MOCKS: isMock ? mocks : undefined,
-    EXPERIMENTS: isMock
-      ? {
-          [mocks?.[experiment]?.id]: {
-            EXPERIMENT_ID: mocks?.[experiment]?.id,
-            VARIATIONS: activeExperiment.variations,
-          },
-        }
-      : {
-          [activeExperiment?.id]: {
-            EXPERIMENT_ID: activeExperiment?.id,
-            VARIATIONS: activeExperiment.variations,
-          },
-        },
-  }
+const getVariables = ({ config, experiment, isMock }) => {
+  const mocks = isMock
+    ? getMocks({
+        experiment,
+        variation: Object.keys(
+          config.experiments?.[experiment]?.variations
+        )?.[0],
+      })
+    : undefined
+
+  return { mocks, ...config }
 }
 
 export { getVariables }

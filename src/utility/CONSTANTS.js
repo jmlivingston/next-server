@@ -17,9 +17,7 @@ const ROUTES = Object.freeze({
   OPTIMIZELY: { display: 'Optimizely', path: '/reservations/start' },
 })
 
-const OPTIMIZELY_EXPERIMENTS = JSON.parse(
-  process.env.NEXT_PUBLIC_OPTIMIZELY_EXPERIMENTS
-)
+const OPTIMIZELY_CONFIG = JSON.parse(process.env.NEXT_PUBLIC_OPTIMIZELY_CONFIG)
 
 export {
   AWS_ACCESS_KEY_ID,
@@ -29,6 +27,6 @@ export {
   ENV_KEY,
   NEXT_PUBLIC_JENKINS_URL,
   NEXT_PUBLIC_JENKINS_USER_TOKEN,
-  OPTIMIZELY_EXPERIMENTS,
+  OPTIMIZELY_CONFIG,
   ROUTES,
 }

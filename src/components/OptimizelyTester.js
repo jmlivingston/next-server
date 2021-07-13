@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import React, { useEffect, useState } from 'react'
+import { OPTIMIZELY_CONFIG } from '../utility/CONSTANTS'
 import { getVariables } from '../utility/optimizelyUtility'
 import {
   OptimizelyExperiment,
@@ -14,9 +15,10 @@ const Optimizely = () => {
   const [variables, setVariables] = useState()
 
   useEffect(() => {
-    const experiment = process.env.NEXT_PUBLIC_OPTIMIZELY_EXPERIMENT_ID
+    const experiment = Object.keys(OPTIMIZELY_CONFIG.experiments)[0]
     setExperiment(experiment)
     const variables = getVariables({
+      config: OPTIMIZELY_CONFIG,
       experiment,
       isMock,
     })
@@ -25,24 +27,22 @@ const Optimizely = () => {
   }, [isMock])
 
   const Nested = () => {
-    const [variation] = useExperiment(
-      variables?.EXPERIMENTS?.[experiment].EXPERIMENT_ID
-    )
+    const [variation] = useExperiment(variables?.experiments?.[experiment].id)
     return <div>useExperiment: {variation}</div>
   }
 
-  const currentExperiment = variables?.EXPERIMENTS?.[experiment]
+  const currentExperiment = variables?.experiments?.[experiment]
 
   return (
     <>
       <Head>
         <title>Optimizely</title>
         <script
-          src={`https://cdn.optimizely.com/js/${process.env.NEXT_PUBLIC_OPTIMIZELY_SNIPPET_ID}.js`}></script>
+          src={`https://cdn.optimizely.com/js/${OPTIMIZELY_CONFIG.snippetId}.js`}></script>
       </Head>
       {variables && (
         <OptimizelyProvider
-          overrideExperiments={isMock ? variables?.MOCKS : undefined}>
+          overrideExperiments={isMock ? variables?.mocks : undefined}>
           <div className="form-check form-switch">
             <input
               className="form-check-input"
@@ -56,13 +56,13 @@ const Optimizely = () => {
             </label>
           </div>
           <hr />
-          <OptimizelyExperiment experiment={currentExperiment?.EXPERIMENT_ID}>
+          <OptimizelyExperiment experiment={currentExperiment?.id}>
             {(variation) => <div>OptimizelyExperiment: {variation}</div>}
           </OptimizelyExperiment>
-          {Object.entries(currentExperiment?.VARIATIONS)?.map(
+          {Object.entries(currentExperiment?.variations)?.map(
             ([key, variation]) => (
               <OptimizelyVariation
-                experiment={currentExperiment?.EXPERIMENT_ID}
+                experiment={currentExperiment?.id}
                 key={key}
                 variation={variation?.id}>
                 <div>OptimizelyVariation: {JSON.stringify(variation)}</div>
@@ -81,8 +81,8 @@ const Optimizely = () => {
               <br />
               For example: ?optimizely_x=
               {
-                currentExperiment?.VARIATIONS?.[
-                  Object.keys(currentExperiment?.VARIATIONS)[0]
+                currentExperiment?.variations?.[
+                  Object.keys(currentExperiment?.variations)[0]
                 ]?.id
               }
               .
