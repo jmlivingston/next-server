@@ -4,8 +4,8 @@ import { OptimizelyContext } from './OptimizelyContext'
 
 const OptimizelyExperiment = ({ children, experiment }) => {
   const { getExperiment } = useContext(OptimizelyContext)
-  const currentExperiment = getExperiment({ experiment })
-  return children(currentExperiment?.variation?.name || null)
+  const activeExperiment = getExperiment({ experiment })
+  return children(activeExperiment?.variation?.name || null)
 }
 
 OptimizelyExperiment.propTypes = {

@@ -3,15 +3,14 @@ import { createContext, useEffect, useState } from 'react'
 
 const OptimizelyContext = createContext()
 
-const OptimizelyProvider = ({ children, overrideExperiments }) => {
+const OptimizelyProvider = ({ children, mocks }) => {
   const [data, setData] = useState({ experiments: {} })
 
   useEffect(() => {
     const experiments =
-      overrideExperiments ||
-      window?.optimizely?.get('state')?.getExperimentStates()
+      mocks || window?.optimizely?.get('state')?.getExperimentStates()
     setData({ experiments })
-  }, [overrideExperiments])
+  }, [mocks])
 
   const getExperiment = ({ experiment }) => {
     return data.experiments?.[experiment?.toString()]
@@ -27,7 +26,7 @@ const OptimizelyProvider = ({ children, overrideExperiments }) => {
 
 OptimizelyProvider.propTypes = {
   children: PropTypes.node,
-  overrideExperiments: PropTypes.shape({}),
+  mocks: PropTypes.shape({}),
 }
 
 export { OptimizelyContext, OptimizelyProvider }
