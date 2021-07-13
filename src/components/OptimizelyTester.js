@@ -64,8 +64,8 @@ const Optimizely = () => {
               <OptimizelyVariation
                 experiment={currentExperiment?.EXPERIMENT_ID}
                 key={key}
-                variation={variation}>
-                <div>OptimizelyVariation: {variation}</div>
+                variation={variation?.id}>
+                <div>OptimizelyVariation: {JSON.stringify(variation)}</div>
               </OptimizelyVariation>
             )
           )}
@@ -83,7 +83,7 @@ const Optimizely = () => {
               {
                 currentExperiment?.VARIATIONS?.[
                   Object.keys(currentExperiment?.VARIATIONS)[0]
-                ]
+                ]?.id
               }
               .
             </>
