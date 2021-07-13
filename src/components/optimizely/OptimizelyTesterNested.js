@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { useExperiment } from './optimizely'
+import { useExperiment } from '.'
 
 const OptimizelyTesterNested = ({ experiment }) => {
   const [variation] = useExperiment(experiment)

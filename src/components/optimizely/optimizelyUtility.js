@@ -1,3 +1,4 @@
+// OptimizelyProvider ancestor is required (see OptimizelyContext.js)
 const getMocks = ({ experiment, isMock, variation }) => {
   const mocks = isMock
     ? {
