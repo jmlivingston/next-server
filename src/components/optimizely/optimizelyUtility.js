@@ -15,4 +15,5 @@ const getMocks = ({ experiment, isMock, variation }) => {
   return mocks
 }
 
+// eslint-disable-next-line import/prefer-default-export
 export { getMocks }

@@ -1,6 +1,6 @@
 // Optimizely snippet required: https://help.optimizely.com/Set_Up_Optimizely/Implement_the_one-line_snippet_for_Optimizely_X
 import PropTypes from 'prop-types'
-import { createContext, useEffect, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 
 const OptimizelyContext = createContext()
 
@@ -18,9 +18,8 @@ const OptimizelyProvider = ({ children, mocks }) => {
     setData({ experiments })
   }, [mocks])
 
-  const getExperiment = ({ experiment }) => {
-    return data.experiments?.[experiment.toString()]
-  }
+  const getExperiment = ({ experiment }) =>
+    data.experiments?.[experiment.toString()]
 
   return (
     <OptimizelyContext.Provider
