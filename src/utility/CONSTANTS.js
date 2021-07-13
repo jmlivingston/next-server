@@ -19,6 +19,30 @@ const ROUTES = Object.freeze({
 
 const OPTIMIZELY_CONFIG = JSON.parse(process.env.NEXT_PUBLIC_OPTIMIZELY_CONFIG)
 
+// Example OPTIMIZELY_CONFIG
+// {
+//   experiments: {
+//     101: {
+//       id: '101',
+//       name: 'One zero one',
+//       variations: {
+//         201: {
+//           id: '201',
+//           name: 'Two zero one',
+//         },
+//         202: {
+//           id: '202',
+//           name: 'Two zero two',
+//         },
+//         203: {
+//           id: '203',
+//           name: 'Two zero three',
+//         },
+//       },
+//     },
+//   },
+// }
+
 export {
   AWS_ACCESS_KEY_ID,
   AWS_S3_BUCKET,
