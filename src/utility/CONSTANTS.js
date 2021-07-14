@@ -7,14 +7,16 @@ const NEXT_PUBLIC_JENKINS_URL = process.env.NEXT_PUBLIC_JENKINS_URL
 const NEXT_PUBLIC_JENKINS_USER_TOKEN = process.env.NEXT_PUBLIC_JENKINS_URL
 
 const ROUTES = Object.freeze({
-  HOME: { display: 'Home', path: '/' },
   CONVERT_FILE: {
     disabled: true,
     display: 'Convert File',
     path: '/convert-file',
   },
+  HOME: { display: 'Home', path: '/' },
   JENKINS: { disabled: true, display: 'Jenkins', path: '/jenkins' },
   OPTIMIZELY: { display: 'Optimizely', path: '/reservations/start' },
+  PAYMENT: { display: 'Payment', path: '/payment' },
+  XSTATE: { display: 'XState', path: '/xstate' },
 })
 
 const OPTIMIZELY_CONFIG = JSON.parse(process.env.NEXT_PUBLIC_OPTIMIZELY_CONFIG)

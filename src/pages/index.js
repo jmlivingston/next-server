@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Payment from '../components/Payment'
 
 export default function Home() {
   return (
@@ -12,3 +13,5 @@ export default function Home() {
     </>
   )
 }
+
+export { Payment }
