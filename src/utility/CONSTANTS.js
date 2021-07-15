@@ -16,7 +16,6 @@ const ROUTES = Object.freeze({
   JENKINS: { disabled: true, display: 'Jenkins', path: '/jenkins' },
   OPTIMIZELY: { display: 'Optimizely', path: '/reservations/start' },
   PAYMENT: { display: 'Payment', path: '/payment' },
-  XSTATE: { display: 'XState', path: '/xstate' },
 })
 
 const OPTIMIZELY_CONFIG = JSON.parse(process.env.NEXT_PUBLIC_OPTIMIZELY_CONFIG)
