@@ -1,11 +1,11 @@
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
-import { ROUTES } from '../utility/CONSTANTS'
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { ROUTES } from '../utility/CONSTANTS';
 
 function Layout({ Component, pageProps }) {
-  const { pathname } = useRouter()
-  const [isNavOpen, setIsNavOpen] = useState(false)
+  const { pathname } = useRouter();
+  const [isNavOpen, setIsNavOpen] = useState(false);
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -21,28 +21,24 @@ function Layout({ Component, pageProps }) {
             aria-controls="navbarSupportedContent"
             aria-expanded={isNavOpen}
             aria-label="Toggle navigation"
-            onClick={() => setIsNavOpen(!isNavOpen)}>
+            onClick={() => setIsNavOpen(!isNavOpen)}
+          >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div
-            className={`collapse navbar-collapse${isNavOpen ? ' show' : ''}`}>
+          <div className={`collapse navbar-collapse${isNavOpen ? ' show' : ''}`}>
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               {Object.entries(ROUTES)
-                .filter(([key, route]) => !route.disabled && key !== 'HOME')
+                .filter(([key, route]) => !route.disabled && key !== 'HOME' && route.inNav !== false)
                 .map(([key, route]) => {
                   return (
                     <li className="nav-item" key={key}>
                       <Link href={route.path}>
-                        <a
-                          className={`nav-link${
-                            pathname === route.path ? ' active' : ''
-                          }`}
-                          href={route.path}>
+                        <a className={`nav-link${pathname === route.path ? ' active' : ''}`} href={route.path}>
                           {route.display}
                         </a>
                       </Link>
                     </li>
-                  )
+                  );
                 })}
             </ul>
           </div>
@@ -52,7 +48,7 @@ function Layout({ Component, pageProps }) {
         <Component {...pageProps} />
       </div>
     </>
-  )
+  );
 }
 
-export default Layout
+export default Layout;

@@ -1,3 +1,3 @@
-import Payment from '../components/Payment'
+import Payment from '../components/payment/Payment';
 
-export default Payment
+export default Payment;

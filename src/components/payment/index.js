@@ -1,3 +1,5 @@
-import Payment from './Payment'
+import Payment from './Payment';
+import PaymentChallenge from './PaymentChallenge';
+import PaymentComplete from './PaymentComplete';
 
-export default Payment
+export { Payment, PaymentChallenge, PaymentComplete };
