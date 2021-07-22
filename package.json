@@ -9,8 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@xstate/inspect": "^0.4.1",
     "@xstate/react": "^1.5.1",
-    "@xstate/viz": "^0.3.4",
     "bootswatch": "^5.0.2",
     "crypto-js": "^4.0.0",
     "date-fns": "^2.22.1",
@@ -19,7 +19,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "safecharge": "^0.0.9",
-    "xstate": "^4.22.0"
+    "xstate": "^4.23.0"
   },
   "devDependencies": {
     "aws-sdk": "^2.935.0",

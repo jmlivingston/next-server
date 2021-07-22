@@ -34,6 +34,7 @@ const ROUTES = Object.freeze({
     display: 'Convert File',
     path: '/convert-file',
   },
+  FSM: { display: 'Simple FSM', path: '/fsm' },
   HOME: { display: 'Home', path: '/' },
   JENKINS: { disabled: true, display: 'Jenkins', path: '/jenkins' },
   OPTIMIZELY: { display: 'Optimizely', path: '/reservations/start' },
