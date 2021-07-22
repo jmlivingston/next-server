@@ -10,7 +10,7 @@ const Fsm = () => {
       <pre>
         <code> {JSON.stringify(state.context, null, 2)}</code>
       </pre>
-      <div className="btn btn-primary" onClick={() => send('FETCH')}>
+      <div className="btn btn-primary mb-3" onClick={() => send('FETCH')}>
         Start
       </div>
     </>

@@ -11,8 +11,8 @@ const Inspector = ({ newWindow }) => {
       id="fsm-iframe"
       src="https://statecharts.io/inspect"
       width="100%"
-      height="1000px"
-      style={{ marginTop: '10px' }}
+      height="100vh"
+      style={{ height: '100vh' }}
     ></iframe>
   );
 };
