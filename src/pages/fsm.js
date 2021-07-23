@@ -2,7 +2,7 @@ import React from 'react';
 import Fsm from '../components/fsm/Fsm';
 import Inspector from '../components/fsm/Inspector';
 
-const fsm = () => {
+const FsmContainer = () => {
   return (
     <>
       <Fsm />
@@ -11,4 +11,4 @@ const fsm = () => {
   );
 };
 
-export default fsm;
+export default FsmContainer;

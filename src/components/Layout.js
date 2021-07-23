@@ -44,7 +44,7 @@ function Layout({ Component, pageProps }) {
           </div>
         </div>
       </nav>
-      <div className="container pt-2">
+      <div className="container-fluid pt-2">
         <Component {...pageProps} />
       </div>
     </>

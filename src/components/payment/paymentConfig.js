@@ -1,5 +1,3 @@
-import { createMachine } from 'xstate';
-
 const defaultFormState = {
   amount: '100',
   cardHolderName: 'John Doe',
@@ -15,19 +13,6 @@ const defaultFormState = {
   city: 'San Diego',
   state: 'CA',
 };
-
-const paymentMachine = createMachine({
-  id: 'toggle',
-  initial: 'inactive',
-  states: {
-    inactive: {
-      on: { TOGGLE: 'active' },
-    },
-    active: {
-      on: { TOGGLE: 'inactive' },
-    },
-  },
-});
 
 const strings = {
   amount: 'Amount',
@@ -46,4 +31,4 @@ const strings = {
   submit: 'Submit',
 };
 
-export { defaultFormState, paymentMachine, strings };
+export { defaultFormState, strings };
