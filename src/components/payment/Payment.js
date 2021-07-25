@@ -2,20 +2,8 @@ import { useMachine } from '@xstate/react';
 import React, { useState } from 'react';
 import { API_ROUTES } from '../../utility/CONSTANTS';
 import Input from '../common/Input';
-// import Loader from '../common/Loader';
 import { defaultFormState, strings } from './paymentConfig';
 import paymentMachine from './paymentMachine2';
-
-// https://docs.safecharge.com/documentation/accept-payment/server-to-server-flow/
-// const MODE = Object.freeze({
-//   ERROR: 'ERROR',
-//   FILL_FORM: 'FILL_FORM', // Step 2
-//   INIT_PAYMENT: 'INIT_PAYMENT', // Step 1 & 3
-//   SECURE_PAYMENT: 'SECURE_PAYMENT', // Step 5
-//   CHALLENGE_PAYMENT: 'CHALLENGE_PAYMENT', // Step 6
-//   FINAL_PAYMENT: 'FINAL_PAYMENT', // Step 7
-//   PAYMENT_SUCCESSFUL: 'PAYMENT_SUCCESSFUL',
-// });
 
 function Payment({ isInspectorOnly }) {
   const [state, send] = useMachine(paymentMachine, { devTools: true });
@@ -26,7 +14,7 @@ function Payment({ isInspectorOnly }) {
     event.preventDefault();
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    const intPaymentResponse = await fetch(API_ROUTES.INIT_PAYMENT, {
+    const intPaymentResponse = await fetch(API_ROUTES.PAYMENT_INIT, {
       method: 'POST',
       body: JSON.stringify({
         amount: formState.amount,

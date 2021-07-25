@@ -10,8 +10,8 @@ const STATES = Object.freeze({
   ERROR: 'ERROR',
   FILL_FORM: 'FILL_FORM', // Step 2
   FILL_FORM_VALIDATE: 'FILL_FORM_VALIDATE',
-  INIT_PAYMENT: 'INIT_PAYMENT', // Step 1 & 3
-  INIT_PAYMENT_VALIDATE: 'INIT_PAYMENT_VALIDATE',
+  PAYMENT_INIT: 'PAYMENT_INIT', // Step 1 & 3
+  PAYMENT_INIT_VALIDATE: 'PAYMENT_INIT_VALIDATE',
   SECURE_FINGERPRINTING: 'SECURE_FINGERPRINTING', // Step 4
   SECURE_FINGERPRINTING_VALIDATE: 'SECURE_FINGERPRINTING_VALIDATE', // Step 4
   SECURE_PAYMENT: 'SECURE_PAYMENT', // Step 5
@@ -64,7 +64,7 @@ const API_STATES_CONFIG = Object.freeze({
 });
 
 const GUARDS = Object.freeze({
-  INIT_PAYMENT_VALIDATE: 'INIT_PAYMENT_VALIDATE',
+  PAYMENT_INIT_VALIDATE: 'PAYMENT_INIT_VALIDATE',
 });
 
 const XSTATE_TYPES = Object.freeze({
@@ -73,12 +73,12 @@ const XSTATE_TYPES = Object.freeze({
 
 const paymentMachine = Machine({
   id,
-  initial: STATES.INIT_PAYMENT, // should be fill_form
+  initial: STATES.PAYMENT_INIT, // should be fill_form
   states: {
     [STATES.FILL_FORM]: {
       id: STATES.FILL_FORM,
       initial: API_STATES.IDLE,
-      onDone: { target: STATES.INIT_PAYMENT },
+      onDone: { target: STATES.PAYMENT_INIT },
       states: {
         [API_STATES.IDLE]: API_STATES_CONFIG.IDLE,
         [API_STATES.SUBMITTING]: {
@@ -90,11 +90,11 @@ const paymentMachine = Machine({
         [API_STATES.COMPLETE]: { type: XSTATE_TYPES.FINAL },
       },
     },
-    [STATES.INIT_PAYMENT]: {
-      id: STATES.INIT_PAYMENT,
+    [STATES.PAYMENT_INIT]: {
+      id: STATES.PAYMENT_INIT,
       initial: API_STATES.SUBMITTING, // should be idle
       onDone: [
-        { target: STATES.SECURE_FINGERPRINTING, cond: GUARDS.INIT_PAYMENT_REQUIRES_FINGERPRINTING },
+        { target: STATES.SECURE_FINGERPRINTING, cond: GUARDS.PAYMENT_INIT_REQUIRES_FINGERPRINTING },
         { target: STATES.SECURE_PAYMENT },
       ],
       states: {
@@ -102,7 +102,7 @@ const paymentMachine = Machine({
         [API_STATES.SUBMITTING]: {
           invoke: {
             ...API_STATES_CONFIG.SUBMITTING.invoke,
-            src: STATES.INIT_PAYMENT_VALIDATE,
+            src: STATES.PAYMENT_INIT_VALIDATE,
           },
         },
         [API_STATES.COMPLETE]: { type: XSTATE_TYPES.FINAL },
@@ -188,8 +188,7 @@ const paymentMachine = Machine({
     }),
   },
   guards: {
-    [GUARDS.INIT_PAYMENT_REQUIRES_FINGERPRINTING]: (context) => {
-      console.log(context);
+    [GUARDS.PAYMENT_INIT_REQUIRES_FINGERPRINTING]: (context) => {
       return context.isFingerPrintingRequired;
     },
   },

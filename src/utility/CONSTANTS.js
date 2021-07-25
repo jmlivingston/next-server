@@ -1,6 +1,8 @@
+const BASE_URL = 'http://localhost:9000';
+
 const API_ROUTES = Object.freeze({
-  INIT_PAYMENT: '/api/init-payment',
-  PAYMENT: '/api/payment',
+  PAYMENT_INIT: `${BASE_URL}/api/payment/init`,
+  PAYMENT: `${BASE_URL}/api/payment`,
 });
 
 const ENV_KEY = 'B';

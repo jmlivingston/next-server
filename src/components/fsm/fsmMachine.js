@@ -8,7 +8,6 @@ const BASE_URL = 'http://localhost:9000/api/fsm/';
 */
 
 const handleData = (data) => {
-  console.log(data);
   if (data.ok) {
     return data.json();
   } else {

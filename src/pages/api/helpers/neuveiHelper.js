@@ -52,12 +52,16 @@ const initPayment = async ({
   sessionToken,
   userTokenId,
 }) => {
-  sessionToken = sessionToken || (await getSessionToken()).sessionToken;
+  // TODO: can these be combined?
+  if (!sessionToken) {
+    const sessionTokenResponse = await getSessionToken();
+    sessionToken = sessionTokenResponse.sessionToken;
+  }
   const resource = `${NEUVEI_BASE_URL}/ppp/api/initPayment.do`;
   const headers = new Headers();
   headers.append('Content-Type', 'application/json');
   headers.append('Accept', 'application/json');
-  const clientRequestId = uuidV4();
+  const clientRequestId = uuidV4(); // TODO: get id
 
   const body = JSON.stringify({
     merchantSiteId: NEUVEI_MERCHANT_SITE_ID,

@@ -214,7 +214,6 @@ const paymentMachine = createMachine({
   },
   guards: {
     initPaymentRequiresFingerprinting: (context) => {
-      console.log(context);
       return context.isFingerPrintingRequired;
     },
   },

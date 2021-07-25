@@ -1,10 +1,11 @@
-import { initPayment } from './helpers/neuveiHelper';
+import { v4 as uuidV4 } from 'uuid';
+import { initPayment } from '../helpers/neuveiHelper';
 
 export default async function handler(req, res) {
   const { method } = req;
   try {
     if (method === 'POST') {
-      const initPaymentResponse = await initPayment(req.body);
+      const initPaymentResponse = await initPayment({ ...JSON.parse(req.body), userTokenId: uuidV4() }); // TODO: token
       res.status(200).json(initPaymentResponse);
     } else {
       res.status(405).send();
