@@ -237,4 +237,4 @@ const payment = async ({
   // return { id: 'foo' };
 };
 
-export { getSessionToken, initPayment, payment };
+export { getIdsTimeStamp, getSessionToken, initPayment, payment };
