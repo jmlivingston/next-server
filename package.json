@@ -6,7 +6,8 @@
     "dev": "NODE_OPTIONS='--inspect' next dev -p 9000",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "jest --watch"
   },
   "dependencies": {
     "@xstate/inspect": "^0.4.1",
@@ -23,13 +24,24 @@
   },
   "devDependencies": {
     "aws-sdk": "^2.935.0",
+    "babel-jest": "^27.0.6",
+    "dotenv": "^10.0.0",
     "eslint": "7.29.0",
     "eslint-config-next": "11.0.1",
+    "jest": "^27.0.6",
     "prettier": "^2.3.1",
     "uuid": "^8.3.2"
   },
   "prettier": {
     "printWidth": 120,
     "singleQuote": true
+  },
+  "jest": {
+    "modulePathIgnorePatterns": [
+      "<rootDir>/src/pages/api/params/test/payment/target"
+    ],
+    "setupFiles": [
+      "./setupTests.js"
+    ]
   }
 }

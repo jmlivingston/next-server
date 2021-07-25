@@ -1,24 +1,21 @@
-// import { NEUVEU_3D_MODE } from '../../../utility/CONSTANTS';
-const fs = require('fs');
-const path = require('path');
+import { NEUVEU_3D_MODE } from '../../../utility/CONSTANTS';
 
-const NEUVEU_3D_MODE = Object.freeze({
-  CHALLENGE: 'CHALLENGE',
-  CHALLENGE_LIABILITY_SHIFT: 'CHALLENGE_LIABILITY_SHIFT',
-  FRICTIONLESS: 'FRICTIONLESS',
-  FALLBACK: 'FALLBACK',
-  FALLBACK_LIABILITY_SHIFT: 'FALLBACK_LIABILITY_SHIFT',
-});
-
-const payment = ({ cardNumber, cardHolderName, mode, notificationURL, relatedTransactionId }) => {
+const getPaymentParams = ({
+  cardNumber,
+  cardHolderName,
+  mode,
+  notificationURL,
+  relatedTransactionId,
+  transactionType,
+}) => {
   mode = mode || NEUVEU_3D_MODE.CHALLENGE;
 
   switch (mode) {
     case NEUVEU_3D_MODE.CHALLENGE:
       cardNumber = '4000020951595032';
       cardHolderName = 'CL-BRW1';
-      notificationURL = 'https://docs.safecharge.com/3Dsimulator/notificationUrl.php';
-      relatedTransactionId = '{{paymentTransactionId}}';
+      notificationURL = '{{notificationUrl}}';
+      relatedTransactionId = '{{initPaymentTransactionId}}';
       break;
     case NEUVEU_3D_MODE.CHALLENGE_LIABILITY_SHIFT:
       cardNumber = '4000020951595032';
@@ -30,9 +27,17 @@ const payment = ({ cardNumber, cardHolderName, mode, notificationURL, relatedTra
     case NEUVEU_3D_MODE.FRICTIONLESS:
       cardNumber = '4000027891380961';
       cardHolderName = 'FL-BRW1';
-      notificationURL = 'http://www.The-Merchant-Website-Fully-Quallified-URL.com';
+      notificationURL =
+        'http://wwww.Test-Notification-URL-After-The-Challange-Is-Complete-Which-Recieves-The-CRes-Message.com';
+      relatedTransactionId = '{{initPaymentTransactionId}}';
       break;
     case NEUVEU_3D_MODE.FALLBACK:
+      cardNumber = '4012001037141112';
+      cardHolderName = 'john smith';
+      notificationURL = undefined;
+      relatedTransactionId = '{{initPaymentTransactionId}}';
+      break;
+    case NEUVEU_3D_MODE.FALLBACK_LIABILITY_SHIFT:
       cardNumber = '4012001037141112';
       cardHolderName = 'john smith';
       notificationURL = undefined;
@@ -50,21 +55,28 @@ const payment = ({ cardNumber, cardHolderName, mode, notificationURL, relatedTra
     checksum: '{{checksum}}',
     currency: '{{currency}}',
     amount: '{{amount}}',
-    relatedTransactionId: '{{initPaymentTransactionId}}',
+    relatedTransactionId,
+    transactionType,
     paymentOption: {
       card: {
-        cardNumber: '4000020951595032',
-        cardHolderName: 'CL-BRW1',
+        cardNumber,
+        cardHolderName,
         expirationMonth: '12',
         expirationYear: '25',
         CVV: '217',
         threeD:
-          CHALLENGE_LIABILITY_SHIFT || NEUVEU_3D_MODE.FALLBACK
-            ? {}
+          mode === NEUVEU_3D_MODE.CHALLENGE_LIABILITY_SHIFT ||
+          mode === NEUVEU_3D_MODE.FALLBACK ||
+          mode === NEUVEU_3D_MODE.FALLBACK_LIABILITY_SHIFT
+            ? mode === NEUVEU_3D_MODE.FALLBACK || mode === NEUVEU_3D_MODE.FALLBACK_LIABILITY_SHIFT
+              ? mode === NEUVEU_3D_MODE.FALLBACK_LIABILITY_SHIFT
+                ? { paResponse: '{{PaResponse}}' }
+                : {}
+              : undefined
             : {
                 methodCompletionInd: 'U',
                 version: '{{threeDVersion}}',
-                notificationURL: '{{notificationUrl}}',
+                notificationURL,
                 merchantURL: 'http://www.The-Merchant-Website-Fully-Quallified-URL.com',
                 platformType: '02',
                 v2AdditionalParams: {
@@ -124,7 +136,7 @@ const payment = ({ cardNumber, cardHolderName, mode, notificationURL, relatedTra
       email: 'john.smith@safecharge.com',
     },
     shippingAddress:
-      CHALLENGE_LIABILITY_SHIFT || FALLBACK_LIABILITY_SHIFT
+      mode === NEUVEU_3D_MODE.CHALLENGE_LIABILITY_SHIFT || mode === NEUVEU_3D_MODE.FALLBACK_LIABILITY_SHIFT
         ? undefined
         : {
             firstName: 'John',
@@ -140,12 +152,4 @@ const payment = ({ cardNumber, cardHolderName, mode, notificationURL, relatedTra
   };
 };
 
-Object.keys(NEUVEU_3D_MODE).map((mode) => {
-  const params = payment({ mode });
-  fs.writeFileSync(
-    path.join(path.resolve(), `params/test/payment/original${mode}.json`),
-    JSON.stringify(params, null, 2)
-  );
-});
-
-// export default payment;
+export { getPaymentParams };

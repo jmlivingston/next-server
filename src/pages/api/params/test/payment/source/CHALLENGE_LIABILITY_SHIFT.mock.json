@@ -7,16 +7,15 @@
   "checksum": "{{checksum}}",
   "currency": "{{currency}}",
   "amount": "{{amount}}",
+  "relatedTransactionId": "{{paymentTransactionId}}",
+  "transactionType": "Auth",
   "paymentOption": {
     "card": {
-      "cardNumber": "4012001037141112",
-      "cardHolderName": "assad asdsad",
+      "cardNumber": "4000020951595032",
+      "cardHolderName": "CL-BRW1",
       "expirationMonth": "12",
       "expirationYear": "25",
-      "CVV": "217",
-      "threeD": {
-        "paResponse": "{{PaResponse}}"
-      }
+      "CVV": "217"
     }
   },
   "billingAddress": {
