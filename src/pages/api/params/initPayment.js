@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { NEUVEI_KEY, NEUVEI_MERCHANT_ID, NEUVEI_MERCHANT_SITE_ID, NEUVEI_MODES } from '../../../utility/CONSTANTS';
+import { NEUVEI_MERCHANT_ID, NEUVEI_MERCHANT_SITE_ID, NEUVEI_MODES } from '../../../utility/CONSTANTS';
 
 const initPayment = ({
   amount,
@@ -13,6 +13,7 @@ const initPayment = ({
   methodNotificationUrl,
   mode,
   platformType,
+  sessionToken, // comes from getSessionToken
   userTokenId,
 }) => {
   amount = amount || '500';
@@ -46,7 +47,7 @@ const initPayment = ({
   return {
     merchantSiteId: NEUVEI_MERCHANT_SITE_ID,
     merchantId: NEUVEI_MERCHANT_ID,
-    sessionToken: NEUVEI_KEY,
+    sessionToken,
     clientRequestId,
     currency,
     amount,

@@ -1,4 +1,28 @@
-const payment = () => {
+import { NEUVEI_MODES } from '../../../utility/CONSTANTS';
+
+const payment = ({ cardNumber, cardHolderName, isSecondPayment, mode, notificationURL }) => {
+  mode = mode || NEUVEI_MODES.THREE_D_CHALLENGE;
+
+  switch (mode) {
+    case NEUVEI_MODES.THREE_D_CHALLENGE:
+      cardNumber = '4000020951595032';
+      cardHolderName = 'CL-BRW1';
+      notificationURL = 'https://docs.safecharge.com/3Dsimulator/notificationUrl.php';
+      break;
+    case NEUVEI_MODES.THREE_D_FRICTIONLESS:
+      cardNumber = '4000027891380961';
+      cardHolderName = 'FL-BRW1';
+      notificationURL = 'http://www.The-Merchant-Website-Fully-Quallified-URL.com';
+      break;
+    case NEUVEI_MODES.THREE_D_FALLBACK:
+      cardNumber = '4012001037141112';
+      cardHolderName = 'john smith';
+      notificationURL = undefined;
+      break;
+    default:
+      break;
+  }
+
   return {
     sessionToken: '{{sessionToken}}',
     merchantId: '{{merchantId}}',

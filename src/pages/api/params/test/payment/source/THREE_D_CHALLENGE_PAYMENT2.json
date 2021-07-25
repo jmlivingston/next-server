@@ -1,0 +1,32 @@
+{
+  "sessionToken": "{{sessionToken}}",
+  "merchantId": "{{merchantId}}",
+  "merchantSiteId": "{{merchantSiteId}}",
+  "clientRequestId": "{{clientRequestId}}",
+  "timeStamp": "{{timestamp}}",
+  "checksum": "{{checksum}}",
+  "relatedTransactionId": "{{paymentTransactionId}}",
+  "currency": "{{currency}}",
+  "amount": "{{amount}}",
+  "transactionType": "Auth",
+  "paymentOption": {
+    "card": {
+      "cardNumber": "4000020951595032",
+      "cardHolderName": "CL-BRW1",
+      "expirationMonth": "12",
+      "expirationYear": "25",
+      "CVV": "217"
+    }
+  },
+  "billingAddress": {
+    "firstName": "John",
+    "lastName": "Smith",
+    "address": "340689 main St.",
+    "city": "London",
+    "country": "GB",
+    "email": "john.smith@safecharge.com"
+  },
+  "deviceDetails": {
+    "ipAddress": "93.146.254.172"
+  }
+}
