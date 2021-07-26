@@ -1,5 +1,4 @@
 import fetch from 'node-fetch';
-import { v4 as uuidV4 } from 'uuid';
 import {
   NEUVEI_API_BASE_URL,
   NEUVEI_API_GET_SESSION,
@@ -42,7 +41,6 @@ const initPayment = async ({
   CVV,
   expirationMonth,
   expirationYear,
-  mode,
   sessionToken,
   userTokenId,
 }) => {
@@ -62,7 +60,6 @@ const initPayment = async ({
     expirationMonth,
     expirationYear,
     methodNotificationUrl: 'https://docs.safecharge.com/3Dsimulator/notificationUrl.php', // TODO
-    mode,
     platformType: '01',
     sessionToken,
     userTokenId,
@@ -92,7 +89,6 @@ const payment = async ({
   CVV,
   expirationMonth,
   expirationYear,
-  mode,
   notificationURL,
   paResponse,
   relatedTransactionId,
@@ -116,7 +112,6 @@ const payment = async ({
     expirationYear,
     merchantId: NEUVEI_MERCHANT_ID,
     merchantSiteId: NEUVEI_MERCHANT_SITE_ID,
-    mode,
     notificationURL,
     paResponse,
     relatedTransactionId,

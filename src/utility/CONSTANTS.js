@@ -15,6 +15,8 @@ const NEUVEI_API_GET_SESSION = process.env.NEUVEI_API_GET_SESSION;
 const NEUVEI_API_INIT_PAYMENT = process.env.NEUVEI_API_INIT_PAYMENT;
 const NEUVEI_API_PAYMENT = process.env.NEUVEI_API_PAYMENT;
 const NEUVEI_API_CHALLENGE = process.env.NEXT_PUBLIC_NEUVEI_API_CHALLENGE;
+const NEUVEI_API_CHALLENGE_SIMULATOR = ({ acsUrl, cReq }) =>
+  `https://docs.safecharge.com/3Dsimulator/showUrl.php?acsUrl=${acsUrl}&creq=${cReq}`;
 const NEUVEI_CONFIG = Object.freeze({
   // See https://docs.safecharge.com/documentation/guides/testing/testing-cards
   CARDS: {
@@ -67,6 +69,7 @@ export {
   NEUVEI_API_INIT_PAYMENT,
   NEUVEI_API_PAYMENT,
   NEUVEI_API_CHALLENGE,
+  NEUVEI_API_CHALLENGE_SIMULATOR,
   NEUVEI_CONFIG,
   NEUVEI_KEY,
   NEUVEI_MERCHANT_ID,
