@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { API_ROUTES } from '../../config/CONSTANTS';
 import Input from '../common/Input';
 import { defaultFormState, strings } from './paymentConfig';
-import paymentMachine from './paymentMachine2';
+import paymentMachine from './paymentMachine';
 
 function Payment({ isInspectorOnly }) {
   const [state, send] = useMachine(paymentMachine, { devTools: true });
