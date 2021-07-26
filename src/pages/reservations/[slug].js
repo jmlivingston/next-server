@@ -1,18 +1,17 @@
-import Head from 'next/head'
-import OptimizelyTester from '../../components/optimizely/OptimizelyTester'
-import { OPTIMIZELY_CONFIG } from '../../utility/CONSTANTS'
+import Head from 'next/head';
+import OptimizelyTester from '../../components/optimizely/OptimizelyTester';
+import { OPTIMIZELY_CONFIG } from '../../utility/CONSTANTS';
 
 const OptimizelyRoutes = () => {
   return (
     <>
       <Head>
         <title>Optimizely</title>
-        <script
-          src={`https://cdn.optimizely.com/js/${OPTIMIZELY_CONFIG.snippetId}.js`}></script>
+        <script src={`https://cdn.optimizely.com/js/${OPTIMIZELY_CONFIG.snippetId}.js`}></script>
       </Head>
       <OptimizelyTester config={OPTIMIZELY_CONFIG} />
     </>
-  )
-}
+  );
+};
 
-export default OptimizelyRoutes
+export default OptimizelyRoutes;

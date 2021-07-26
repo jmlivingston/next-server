@@ -44,15 +44,15 @@ const ROUTES = Object.freeze({
   CONVERT_FILE: {
     disabled: true,
     display: 'Convert File',
-    path: '/convert-file',
+    path: '/pages/convert-file',
   },
-  FSM: { display: 'Simple FSM', path: '/fsm' },
+  FSM: { disabled: true, display: 'Simple FSM', path: '/pages/fsm' },
   HOME: { display: 'Home', path: '/' },
-  JENKINS: { disabled: true, display: 'Jenkins', path: '/jenkins' },
-  OPTIMIZELY: { display: 'Optimizely', path: '/reservations/start' },
-  PAYMENT: { display: 'Payment', path: '/payment' },
-  PAYMENT_CHALLENGE: { display: 'Payment Challenge', path: '/payment-challenge', inNav: false },
-  PAYMENT_COMPLETE: { display: 'Payment Complete', path: '/payment-complete', inNav: false },
+  JENKINS: { disabled: true, display: 'Jenkins', path: '/pages/jenkins' },
+  OPTIMIZELY: { disabled: true, display: 'Optimizely', path: '/reservations/start' },
+  PAYMENT: { display: 'Payment', path: '/pages/payment' },
+  PAYMENT_CHALLENGE: { display: 'Payment Challenge', path: '/pages/payment-challenge', disabled: true },
+  PAYMENT_COMPLETE: { display: 'Payment Complete', path: '/pages/payment-complete', disabled: true },
 });
 
 export {

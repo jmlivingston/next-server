@@ -37,12 +37,26 @@
     "printWidth": 120,
     "singleQuote": true
   },
+  "babel": {
+    "presets": [
+      "next/babel"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "next",
+      "next/core-web-vitals"
+    ],
+    "env": {
+      "jest": true
+    }
+  },
   "jest": {
     "modulePathIgnorePatterns": [
       "<rootDir>/src/pages/api/params/test/payment/target"
     ],
     "setupFiles": [
-      "./setupTests.js"
+      "./src/utility/setupTests.js"
     ]
   }
 }

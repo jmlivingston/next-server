@@ -28,7 +28,7 @@ function Layout({ Component, pageProps }) {
           <div className={`collapse navbar-collapse${isNavOpen ? ' show' : ''}`}>
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               {Object.entries(ROUTES)
-                .filter(([key, route]) => !route.disabled && key !== 'HOME' && route.inNav !== false)
+                .filter(([key, route]) => !route.disabled && key !== 'HOME')
                 .map(([key, route]) => {
                   return (
                     <li className="nav-item" key={key}>
