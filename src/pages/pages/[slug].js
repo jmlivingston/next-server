@@ -4,9 +4,9 @@ import React from 'react';
 import ConvertFile from '../../components/ConvertFile';
 import FsmContainer from '../../components/fsm/FsmContainer';
 import Jenkins from '../../components/Jenkins';
-import PaymentContainer from '../../components/payment/PaymentContainer';
 import PaymentChallenge from '../../components/payment/PaymentChallenge';
 import PaymentComplete from '../../components/payment/PaymentComplete';
+import PaymentContainer from '../../components/payment/PaymentContainer';
 
 const Pages = () => {
   const router = useRouter();

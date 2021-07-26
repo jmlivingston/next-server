@@ -1,40 +1,34 @@
-import PropTypes from 'prop-types'
-import React, { useEffect, useState } from 'react'
-import {
-  getMocks,
-  OptimizelyExperiment,
-  OptimizelyProvider,
-  OptimizelyVariation,
-} from '.'
-import OptimizelyTesterNested from './OptimizelyTesterNested'
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { getMocks, OptimizelyExperiment, OptimizelyProvider, OptimizelyVariation } from '.';
+import OptimizelyTesterNested from './OptimizelyTesterNested';
 
 const OptimizelyTester = ({ config }) => {
-  const [isMock, setIsMock] = useState(false)
-  const [mocks, setMocks] = useState()
+  const [isMock, setIsMock] = useState(false);
+  const [mocks, setMocks] = useState();
   // Get first experiment in config or hard code to use another
-  const experiment = Object.keys(config.experiments)[0]
-  const [variation, setVariation] = useState()
-  const activeExperiment = config.experiments[experiment]
-  const variations = activeExperiment?.variations
+  const experiment = Object.keys(config.experiments)[0];
+  const [variation, setVariation] = useState();
+  const activeExperiment = config.experiments[experiment];
+  const variations = activeExperiment?.variations;
 
   useEffect(() => {
     const queryString = window.location.search
       .substring(1)
       .split('&')
       .reduce((acc, value) => {
-        const values = value.split('=')
-        return { ...acc, [values[0]]: values[1] }
-      }, {})
-    const variation =
-      queryString.optimizely_x || Object.keys(activeExperiment.variations)[0]
-    setVariation(variation)
+        const values = value.split('=');
+        return { ...acc, [values[0]]: values[1] };
+      }, {});
+    const variation = queryString.optimizely_x || Object.keys(activeExperiment.variations)[0];
+    setVariation(variation);
     const mocks = getMocks({
       experiment,
       isMock,
       variation,
-    })
-    setMocks(mocks)
-  }, [isMock])
+    });
+    setMocks(mocks);
+  }, [isMock]);
 
   return (
     <OptimizelyProvider mocks={isMock ? mocks : undefined}>
@@ -52,30 +46,20 @@ const OptimizelyTester = ({ config }) => {
       </div>
       <hr />
       <OptimizelyExperiment experiment={activeExperiment?.id}>
-        {(variation) => (
-          <div>OptimizelyExperiment (render function): {variation}</div>
-        )}
+        {(variation) => <div>OptimizelyExperiment (render function): {variation}</div>}
       </OptimizelyExperiment>
       <OptimizelyExperiment experiment={activeExperiment?.id}>
         <div>OptimizelyExperiment (render chidren)</div>
       </OptimizelyExperiment>
       {/* Loop through to show variations... */}
       {Object.entries(variations)?.map(([key, variation]) => (
-        <OptimizelyVariation
-          experiment={activeExperiment?.id}
-          key={key}
-          variation={variation?.id}>
+        <OptimizelyVariation experiment={activeExperiment?.id} key={key} variation={variation?.id}>
           <div>OptimizelyVariation: {JSON.stringify(variation)}</div>
         </OptimizelyVariation>
       ))}
       {/* ...or wire up a singe variation */}
-      <OptimizelyVariation
-        experiment={activeExperiment?.id}
-        variation={variation}>
-        <div>
-          OptimizelyVariation (not mapped):{' '}
-          {JSON.stringify(activeExperiment?.variations[variation])}
-        </div>
+      <OptimizelyVariation experiment={activeExperiment?.id} variation={variation}>
+        <div>OptimizelyVariation (not mapped): {JSON.stringify(activeExperiment?.variations[variation])}</div>
       </OptimizelyVariation>
       <OptimizelyTesterNested experiment={experiment} />
       <hr />
@@ -90,8 +74,8 @@ const OptimizelyTester = ({ config }) => {
         {Object.keys(variations)[0]}.
       </>
     </OptimizelyProvider>
-  )
-}
+  );
+};
 
 OptimizelyTester.propTypes = {
   config: PropTypes.shape({
@@ -108,7 +92,7 @@ OptimizelyTester.propTypes = {
       })
     ),
   }),
-}
+};
 
 // Example config
 // {
@@ -134,4 +118,4 @@ OptimizelyTester.propTypes = {
 //   },
 // }
 
-export default OptimizelyTester
+export default OptimizelyTester;

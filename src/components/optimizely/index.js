@@ -1,8 +1,8 @@
-import { OptimizelyContext, OptimizelyProvider } from './OptimizelyContext'
-import OptimizelyExperiment from './OptimizelyExperiment'
-import { getMocks, isVariationActive } from './optimizelyUtility'
-import OptimizelyVariation from './OptimizelyVariation'
-import useExperiment from './useExperiment'
+import { OptimizelyContext, OptimizelyProvider } from './OptimizelyContext';
+import OptimizelyExperiment from './OptimizelyExperiment';
+import { getMocks, isVariationActive } from './optimizelyUtility';
+import OptimizelyVariation from './OptimizelyVariation';
+import useExperiment from './useExperiment';
 
 export {
   OptimizelyContext,
@@ -12,4 +12,4 @@ export {
   useExperiment,
   getMocks,
   isVariationActive,
-}
+};

@@ -1,33 +1,30 @@
 // Optimizely snippet required: https://help.optimizely.com/Set_Up_Optimizely/Implement_the_one-line_snippet_for_Optimizely_X
-import PropTypes from 'prop-types'
-import React, { createContext, useEffect, useState } from 'react'
+import PropTypes from 'prop-types';
+import React, { createContext, useEffect, useState } from 'react';
 
-const OptimizelyContext = createContext()
+const OptimizelyContext = createContext();
 
 const OptimizelyProvider = ({ children, mocks }) => {
-  const [data, setData] = useState({ experiments: {} })
+  const [data, setData] = useState({ experiments: {} });
 
   useEffect(() => {
-    let experiments
+    let experiments;
     try {
-      experiments =
-        mocks || window.optimizely?.get('state').getExperimentStates()
+      experiments = mocks || window.optimizely?.get('state').getExperimentStates();
     } catch (error) {
       // TODO: Add logging
     }
-    setData({ experiments })
-  }, [mocks])
+    setData({ experiments });
+  }, [mocks]);
 
-  const getExperiment = ({ experiment }) =>
-    data.experiments?.[experiment.toString()]
+  const getExperiment = ({ experiment }) => data.experiments?.[experiment.toString()];
 
   return (
-    <OptimizelyContext.Provider
-      value={{ getExperiment, experiments: data.experiments }}>
+    <OptimizelyContext.Provider value={{ getExperiment, experiments: data.experiments }}>
       {children}
     </OptimizelyContext.Provider>
-  )
-}
+  );
+};
 
 OptimizelyProvider.propTypes = {
   children: PropTypes.node,
@@ -43,7 +40,7 @@ OptimizelyProvider.propTypes = {
       ),
     })
   ),
-}
+};
 
 // Example mocks
 // {
@@ -54,4 +51,4 @@ OptimizelyProvider.propTypes = {
 //   },
 // }
 
-export { OptimizelyContext, OptimizelyProvider }
+export { OptimizelyContext, OptimizelyProvider };

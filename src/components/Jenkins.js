@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NEXT_PUBLIC_JENKINS_USER_TOKEN, NEXT_PUBLIC_JENKINS_URL } from '../config/CONSTANTS';
+import { NEXT_PUBLIC_JENKINS_URL, NEXT_PUBLIC_JENKINS_USER_TOKEN } from '../config/CONSTANTS';
 
 function Jenkins() {
   console.log(NEXT_PUBLIC_JENKINS_URL);

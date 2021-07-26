@@ -1,17 +1,16 @@
 // OptimizelyProvider ancestor is required (see OptimizelyContext.js)
-import { useContext } from 'react'
-import { OptimizelyContext } from './OptimizelyContext'
+import { useContext } from 'react';
+import { OptimizelyContext } from './OptimizelyContext';
 
 const useExperiment = (experiment) => {
-  const { getExperiment } = useContext(OptimizelyContext)
-  let experimentName
+  const { getExperiment } = useContext(OptimizelyContext);
+  let experimentName;
   try {
-    experimentName = getExperiment({ experiment: experiment.toString() })
-      ?.variation.name
+    experimentName = getExperiment({ experiment: experiment.toString() })?.variation.name;
   } catch (error) {
     // TODO: Add logging
   }
-  return [experimentName]
-}
+  return [experimentName];
+};
 
-export default useExperiment
+export default useExperiment;
