@@ -1,0 +1,48 @@
+{
+  "orderId": "291371288",
+  "userTokenId": "asdasd",
+  "paymentOption": {
+    "userPaymentOptionId": "69383588",
+    "card": {
+      "ccCardNumber": "4****5032",
+      "bin": "400002",
+      "last4Digits": "5032",
+      "ccExpMonth": "12",
+      "ccExpYear": "25",
+      "acquirerId": "19",
+      "cvv2Reply": "",
+      "avsCode": "",
+      "cardType": "Credit",
+      "cardBrand": "VISA",
+      "threeD": {
+        "threeDFlow": "1",
+        "version": "",
+        "whiteListStatus": "",
+        "acsChallengeMandated": "N",
+        "authenticationType": "",
+        "cardHolderInfoText": "",
+        "sdk": {},
+        "xid": "",
+        "result": ""
+      }
+    }
+  },
+  "transactionStatus": "ERROR",
+  "gwErrorCode": -1100,
+  "gwErrorReason": "Data element not in the required format or value is invalid as defined in Table A.1 : sg_ThreeDSVersion",
+  "gwExtendedErrorCode": -1,
+  "transactionType": "Auth3D",
+  "transactionId": "1110000000015922646",
+  "externalTransactionId": "",
+  "authCode": "",
+  "customData": "",
+  "sessionToken": "93ff100d-ac8d-4c0b-ab48-c588e9891642",
+  "internalRequestId": 294540228,
+  "status": "SUCCESS",
+  "errCode": 0,
+  "reason": "",
+  "merchantId": "1317065593481408812",
+  "merchantSiteId": "199456",
+  "version": "1.0",
+  "clientRequestId": "20210726080549"
+}
