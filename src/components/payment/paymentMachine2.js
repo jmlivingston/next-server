@@ -35,7 +35,7 @@ const paymentMachine = createMachine(
         amount: '500',
         ...MODE.SECUREV2_FRICTIONLESS,
         currency: 'USD',
-        cvv: '217',
+        CVV: '217',
         expirationMonth: '12',
         expirationYear: '25',
       },

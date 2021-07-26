@@ -1,81 +1,106 @@
-import { NEUVEU_3D_MODE } from '../../../utility/CONSTANTS';
+import { NEUVEI_3D_MODE, NEUVEI_MERCHANT_ID, NEUVEI_MERCHANT_SITE_ID, NEUVEI_KEY } from '../../../utility/CONSTANTS';
+import sha256 from 'crypto-js/sha256';
+import { format as dateFnsFormat } from 'date-fns';
+import { v4 as uuidV4 } from 'uuid';
+
+const getIdsTimeStamp = ({ amount, currency, clientRequestId } = {}) => {
+  clientRequestId = clientRequestId || uuidV4();
+  const timeStamp = dateFnsFormat(new Date(), 'yyyyMMddHHmmss');
+  const checksum = sha256(
+    `${NEUVEI_MERCHANT_ID}${NEUVEI_MERCHANT_SITE_ID}${clientRequestId}${amount}${currency}${timeStamp}${NEUVEI_KEY}`
+  ).toString();
+  return { checksum, clientRequestId, timeStamp };
+};
 
 const getPaymentParams = ({
-  cardNumber,
+  amount,
   cardHolderName,
+  cardNumber,
+  clientRequestId,
+  currency,
+  CVV,
+  expirationMonth,
+  expirationYear,
+  merchantId,
+  merchantSiteId,
   mode,
   notificationURL,
+  paResponse,
   relatedTransactionId,
+  sessionToken,
   transactionType,
+  version,
 }) => {
-  mode = mode || NEUVEU_3D_MODE.CHALLENGE;
+  // mode = mode || NEUVEI_3D_MODE.CHALLENGE;
+  const { checksum, timeStamp } = getIdsTimeStamp({ amount, currency, clientRequestId });
 
   switch (mode) {
-    case NEUVEU_3D_MODE.CHALLENGE:
+    case NEUVEI_3D_MODE.CHALLENGE:
       cardNumber = '4000020951595032';
       cardHolderName = 'CL-BRW1';
-      notificationURL = '{{notificationUrl}}';
-      relatedTransactionId = '{{initPaymentTransactionId}}';
+      notificationURL = notificationURL || '{{notificationUrl}}';
+      relatedTransactionId = relatedTransactionId || '{{initPaymentTransactionId}}';
       break;
-    case NEUVEU_3D_MODE.CHALLENGE_LIABILITY_SHIFT:
+    case NEUVEI_3D_MODE.CHALLENGE_LIABILITY_SHIFT:
       cardNumber = '4000020951595032';
       cardHolderName = 'CL-BRW1';
-      notificationURL = 'https://docs.safecharge.com/3Dsimulator/notificationUrl.php';
-      relatedTransactionId = '{{paymentTransactionId}}';
+      notificationURL = notificationURL || 'https://docs.safecharge.com/3Dsimulator/notificationUrl.php';
+      relatedTransactionId = relatedTransactionId || '{{paymentTransactionId}}';
       transactionType = 'Auth';
       break;
-    case NEUVEU_3D_MODE.FRICTIONLESS:
+    case NEUVEI_3D_MODE.FRICTIONLESS:
       cardNumber = '4000027891380961';
       cardHolderName = 'FL-BRW1';
       notificationURL =
+        notificationURL ||
         'http://wwww.Test-Notification-URL-After-The-Challange-Is-Complete-Which-Recieves-The-CRes-Message.com';
-      relatedTransactionId = '{{initPaymentTransactionId}}';
+      relatedTransactionId = relatedTransactionId || '{{initPaymentTransactionId}}';
       break;
-    case NEUVEU_3D_MODE.FALLBACK:
+    case NEUVEI_3D_MODE.FALLBACK:
       cardNumber = '4012001037141112';
       cardHolderName = 'john smith';
-      notificationURL = undefined;
-      relatedTransactionId = '{{initPaymentTransactionId}}';
+      notificationURL = notificationURL || undefined;
+      relatedTransactionId = relatedTransactionId || '{{initPaymentTransactionId}}';
       break;
-    case NEUVEU_3D_MODE.FALLBACK_LIABILITY_SHIFT:
+    case NEUVEI_3D_MODE.FALLBACK_LIABILITY_SHIFT:
       cardNumber = '4012001037141112';
       cardHolderName = 'john smith';
-      notificationURL = undefined;
+      notificationURL = notificationURL || undefined;
       break;
     default:
       break;
   }
 
   return {
-    sessionToken: '{{sessionToken}}',
-    merchantId: '{{merchantId}}',
-    merchantSiteId: '{{merchantSiteId}}',
-    clientRequestId: '{{clientRequestId}}',
-    timeStamp: '{{timestamp}}',
-    checksum: '{{checksum}}',
-    currency: '{{currency}}',
-    amount: '{{amount}}',
+    sessionToken: sessionToken || '{{sessionToken}}',
+    merchantId: merchantId || '{{merchantId}}',
+    merchantSiteId: merchantSiteId || '{{merchantSiteId}}',
+    clientRequestId: clientRequestId || '{{clientRequestId}}',
+    timeStamp: timeStamp || '{{timestamp}}',
+    checksum: checksum || '{{checksum}}',
+    currency: currency || '{{currency}}',
+    amount: amount || '{{amount}}',
     relatedTransactionId,
     transactionType,
     paymentOption: {
       card: {
         cardNumber,
         cardHolderName,
-        expirationMonth: '12',
-        expirationYear: '25',
-        CVV: '217',
+        expirationMonth: expirationMonth || '12',
+        expirationYear: expirationYear || '25',
+        CVV: CVV || '217',
         threeD:
-          mode === NEUVEU_3D_MODE.CHALLENGE_LIABILITY_SHIFT ||
-          mode === NEUVEU_3D_MODE.FALLBACK ||
-          mode === NEUVEU_3D_MODE.FALLBACK_LIABILITY_SHIFT
-            ? mode === NEUVEU_3D_MODE.FALLBACK || mode === NEUVEU_3D_MODE.FALLBACK_LIABILITY_SHIFT
-              ? mode === NEUVEU_3D_MODE.FALLBACK_LIABILITY_SHIFT
-                ? { paResponse: '{{PaResponse}}' }
+          mode === NEUVEI_3D_MODE.CHALLENGE_LIABILITY_SHIFT ||
+          mode === NEUVEI_3D_MODE.FALLBACK ||
+          mode === NEUVEI_3D_MODE.FALLBACK_LIABILITY_SHIFT
+            ? mode === NEUVEI_3D_MODE.FALLBACK || mode === NEUVEI_3D_MODE.FALLBACK_LIABILITY_SHIFT
+              ? mode === NEUVEI_3D_MODE.FALLBACK_LIABILITY_SHIFT
+                ? { paResponse: paResponse || '{{PaResponse}}' }
                 : {}
               : undefined
             : {
                 methodCompletionInd: 'U',
-                version: '{{threeDVersion}}',
+                version: version || '{{threeDVersion}}',
                 notificationURL,
                 merchantURL: 'http://www.The-Merchant-Website-Fully-Quallified-URL.com',
                 platformType: '02',
@@ -136,7 +161,7 @@ const getPaymentParams = ({
       email: 'john.smith@safecharge.com',
     },
     shippingAddress:
-      mode === NEUVEU_3D_MODE.CHALLENGE_LIABILITY_SHIFT || mode === NEUVEU_3D_MODE.FALLBACK_LIABILITY_SHIFT
+      mode === NEUVEI_3D_MODE.CHALLENGE_LIABILITY_SHIFT || mode === NEUVEI_3D_MODE.FALLBACK_LIABILITY_SHIFT
         ? undefined
         : {
             firstName: 'John',

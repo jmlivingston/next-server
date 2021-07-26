@@ -21,7 +21,7 @@ function Payment({ isInspectorOnly }) {
         cardHolderName: formState.cardHolderName,
         cardNumber: formState.cardNumber,
         currency: formState.currency,
-        cvv: formState.cvv,
+        CVV: formState.CVV,
         expirationMonth: formState.expirationMonth,
         expirationYear: formState.expirationYear,
       }),
@@ -64,7 +64,7 @@ function Payment({ isInspectorOnly }) {
                 />
               </div>
               <div className="col">
-                <Input name="cvv" strings={strings} type="password" value={formState.cvv} onChange={onChange} />
+                <Input name="CVV" strings={strings} type="password" value={formState.CVV} onChange={onChange} />
               </div>
             </div>
             <div className="row">

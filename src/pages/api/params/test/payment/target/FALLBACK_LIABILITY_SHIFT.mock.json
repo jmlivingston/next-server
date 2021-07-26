@@ -3,8 +3,8 @@
   "merchantId": "{{merchantId}}",
   "merchantSiteId": "{{merchantSiteId}}",
   "clientRequestId": "{{clientRequestId}}",
-  "timeStamp": "{{timestamp}}",
-  "checksum": "{{checksum}}",
+  "timeStamp": "20210725170401",
+  "checksum": "1091afea1c7182c2385a8523cd3e064ee149778a72f7b579e65b96105f1e5b00",
   "currency": "{{currency}}",
   "amount": "{{amount}}",
   "paymentOption": {

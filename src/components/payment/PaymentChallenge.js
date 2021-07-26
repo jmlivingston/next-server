@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React from 'react';
-import { NEUVEI_CHALLENGE_URL, ROUTES } from '../../utility/CONSTANTS';
+import { NEUVEI_API_CHALLENGE, ROUTES } from '../../utility/CONSTANTS';
 import { strings } from './paymentConfig';
 
 const PaymentChallenge = () => {
@@ -13,7 +13,7 @@ const PaymentChallenge = () => {
     const formData = new FormData();
     formData.append('PaReq', paReq);
     formData.append('TermUrl', ROUTES.PAYMENT_COMPLETE.path);
-    fetch(NEUVEI_CHALLENGE_URL, { method: 'POST', body: formData });
+    fetch(NEUVEI_API_CHALLENGE, { method: 'POST', body: formData });
   };
 
   return (
