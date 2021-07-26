@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React from 'react';
 import ConvertFile from '../../components/ConvertFile';
@@ -10,23 +11,39 @@ import PaymentComplete from '../../components/payment/PaymentComplete';
 const Pages = () => {
   const router = useRouter();
   const { slug } = router.query;
+  let Component;
 
   switch (slug) {
     case 'convert-file':
-      return <ConvertFile />;
+      Component = ConvertFile;
+      break;
     case 'fsm':
-      return <FsmContainer />;
+      Component = FsmContainer;
+      break;
     case 'jenkins':
-      return <Jenkins />;
+      Component = Jenkins;
+      break;
     case 'payment':
-      return <PaymentContainer />;
+      Component = PaymentContainer;
+      break;
     case 'payment-challenge':
-      return <PaymentChallenge />;
+      Component = PaymentChallenge;
+      break;
     case 'payment-complete':
-      return <PaymentComplete />;
+      Component = PaymentComplete;
     default:
-      return null;
+      Component = () => null;
+      break;
   }
+
+  return (
+    <>
+      <Head>
+        <title>{slug?.substr(0, 1)?.toUpperCase() + slug?.substr(1)}</title>
+      </Head>
+      <Component />
+    </>
+  );
 };
 
 export default Pages;
