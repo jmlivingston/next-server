@@ -94,7 +94,6 @@ const payment = async ({
   relatedTransactionId,
   sessionToken,
   transactionType,
-  version,
 }) => {
   const resource = `${NEUVEI_API_BASE_URL}${NEUVEI_API_PAYMENT}`;
   const headers = {
@@ -117,7 +116,6 @@ const payment = async ({
     relatedTransactionId,
     sessionToken,
     transactionType,
-    version,
   });
 
   const init = {

@@ -34,7 +34,9 @@ const cardDetails = {
 const notificationURL =
   'http://wwww.Test-Notification-URL-After-The-Challange-Is-Complete-Which-Recieves-The-CRes-Message.com';
 
-const testApi = async ({ cardHolderName, cardNumber }) => {
+const testApi = async ({ cardHolderName, cardNumber, mode }) => {
+  const logs = [mode];
+  logs.push('getSessionToken');
   const sessionResponse = await getSessionToken();
   const initPaymentParams = {
     ...cardDetails,
@@ -43,22 +45,35 @@ const testApi = async ({ cardHolderName, cardNumber }) => {
     clientRequestId: sessionResponse.clientRequestId,
     sessionToken: sessionResponse.sessionToken,
   };
+  logs.push('initPayment');
   const initPaymentResponse = await initPayment(initPaymentParams);
   let paymentParams = {
     ...initPaymentParams,
     checksum: sessionResponse.checksum,
     clientRequestId: initPaymentResponse.clientRequestId,
-    isV2Supported: initPaymentResponse.paymentOption.card.threeD.v2supported !== 'false',
     notificationURL,
     relatedTransactionId: initPaymentResponse.transactionId,
     sessionToken: sessionResponse.sessionToken,
     timeStamp: sessionResponse.timeStamp,
   };
+  logs.push('payment');
   const paymentResponse = await payment(paymentParams);
-  return {
-    paymentResponse,
-    paymentParams,
-  };
+
+  const isChallenge = paymentResponse.transactionStatus === 'REDIRECT';
+  if (isChallenge) {
+    const challengeUrl = NEUVEI_API_CHALLENGE_SIMULATOR({
+      acsUrl: paymentResponse.paymentOption.card.threeD.acUrl,
+      cReq: paymentResponse.paymentOption.card.threeD.cReq,
+    });
+    logs.push('challengeUrl');
+    await fetch(challengeUrl);
+  }
+  if (paymentResponse.paymentOption.card.threeD.result === 'N' || isChallenge) {
+    paymentParams.relatedTransactionId = paymentResponse.transactionId;
+    logs.push('payment (liability shift)');
+    await payment(paymentParams);
+  }
+  console.log(logs.join(' -> '));
 };
 
 describe('payment flows', () => {
@@ -69,37 +84,35 @@ describe('payment flows', () => {
   test(
     NEUVEI_3D_MODE.CHALLENGE,
     async () => {
-      const { paymentParams, paymentResponse } = await testApi({
+      await testApi({
         cardHolderName: 'CL-BRW1',
         cardNumber: '4000020951595032',
+        mode: NEUVEI_3D_MODE.CHALLENGE,
       });
-      const challengeUrl = NEUVEI_API_CHALLENGE_SIMULATOR({
-        acsUrl: paymentResponse.paymentOption.card.threeD.acUrl,
-        cReq: paymentResponse.paymentOption.card.threeD.cReq,
-      });
-      await fetch(challengeUrl);
-      paymentParams.relatedTransactionId = paymentResponse.transactionId;
-      await payment(paymentParams);
     },
     10000
   );
 
-  test(NEUVEI_3D_MODE.FRICTIONLESS, async () => {
-    await testApi({
-      cardHolderName: 'FL-BRW1',
-      cardNumber: '4000027891380961',
-    });
-  });
+  test(
+    NEUVEI_3D_MODE.FRICTIONLESS,
+    async () => {
+      await testApi({
+        cardHolderName: 'FL-BRW1',
+        cardNumber: '4000027891380961',
+        mode: NEUVEI_3D_MODE.FRICTIONLESS,
+      });
+    },
+    10000
+  );
 
   test(
     NEUVEI_3D_MODE.FALLBACK,
     async () => {
-      const { paymentParams, paymentResponse } = await testApi({
+      await testApi({
         cardHolderName: 'john smith',
         cardNumber: '4012001037141112',
+        mode: NEUVEI_3D_MODE.FALLBACK,
       });
-      paymentParams.relatedTransactionId = paymentResponse.transactionId;
-      await payment(paymentParams);
     },
     10000
   );

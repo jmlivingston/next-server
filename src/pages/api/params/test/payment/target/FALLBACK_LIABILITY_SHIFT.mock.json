@@ -1,25 +1,20 @@
 {
-  "sessionToken": "{{sessionToken}}",
-  "merchantId": "{{merchantId}}",
-  "merchantSiteId": "{{merchantSiteId}}",
-  "clientRequestId": "{{clientRequestId}}",
-  "timeStamp": "20210725170401",
-  "checksum": "1091afea1c7182c2385a8523cd3e064ee149778a72f7b579e65b96105f1e5b00",
-  "currency": "{{currency}}",
-  "amount": "{{amount}}",
+  "timeStamp": "20210726082001",
+  "checksum": "564caba756eac2168dcaaa6c24fc261d2e0ac83ece1c09a6fbedc70f73126ba2",
   "paymentOption": {
     "card": {
-      "cardNumber": "4012001037141112",
-      "cardHolderName": "john smith",
-      "expirationMonth": "12",
-      "expirationYear": "25",
-      "CVV": "217",
-      "threeD": {
-        "paResponse": "{{PaResponse}}"
-      }
+      "threeD": {}
     }
   },
   "billingAddress": {
+    "firstName": "John",
+    "lastName": "Smith",
+    "address": "340689 main St.",
+    "city": "London",
+    "country": "GB",
+    "email": "john.smith@safecharge.com"
+  },
+  "shippingAddress": {
     "firstName": "John",
     "lastName": "Smith",
     "address": "340689 main St.",

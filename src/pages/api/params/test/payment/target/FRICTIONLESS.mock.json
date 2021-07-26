@@ -1,72 +1,9 @@
 {
-  "sessionToken": "{{sessionToken}}",
-  "merchantId": "{{merchantId}}",
-  "merchantSiteId": "{{merchantSiteId}}",
-  "clientRequestId": "{{clientRequestId}}",
-  "timeStamp": "20210725170401",
-  "checksum": "8985d08c1dd598842ff6aac13e818fcd5e60921644a3525d623dd91b73f1a316",
-  "currency": "{{currency}}",
-  "amount": "{{amount}}",
-  "relatedTransactionId": "{{initPaymentTransactionId}}",
+  "timeStamp": "20210726082001",
+  "checksum": "f6255f8e1c4d35ffc95a55e1873acf1159b7f8327ea28160da6a1c848976169e",
   "paymentOption": {
     "card": {
-      "cardNumber": "4000027891380961",
-      "cardHolderName": "FL-BRW1",
-      "expirationMonth": "12",
-      "expirationYear": "25",
-      "CVV": "217",
-      "threeD": {
-        "methodCompletionInd": "U",
-        "version": "{{threeDVersion}}",
-        "notificationURL": "http://wwww.Test-Notification-URL-After-The-Challange-Is-Complete-Which-Recieves-The-CRes-Message.com",
-        "merchantURL": "http://www.The-Merchant-Website-Fully-Quallified-URL.com",
-        "platformType": "02",
-        "v2AdditionalParams": {
-          "challengePreference": "01",
-          "deliveryEmail": "The_Email_Address_The_Merchandise_Was_Delivered@yoyoyo.com",
-          "deliveryTimeFrame": "03",
-          "giftCardAmount": "1",
-          "giftCardCount": "41",
-          "giftCardCurrency": "USD",
-          "preOrderDate": "20220511",
-          "preOrderPurchaseInd": "02",
-          "reorderItemsInd": "01",
-          "shipIndicator": "06",
-          "rebillExpiry": "20200101",
-          "rebillFrequency": "13",
-          "challengeWindowSize": "05"
-        },
-        "browserDetails": {
-          "acceptHeader": "text/html,application/xhtml+xml",
-          "ip": "192.168.1.11",
-          "javaEnabled": "TRUE",
-          "javaScriptEnabled": "TRUE",
-          "language": "EN",
-          "colorDepth": "48",
-          "screenHeight": "400",
-          "screenWidth": "600",
-          "timeZone": "0",
-          "userAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47"
-        },
-        "account": {
-          "age": "05",
-          "lastChangeDate": "20190220",
-          "lastChangeInd": "04",
-          "registrationDate": "20190221",
-          "passwordChangeDate": "20190222",
-          "resetInd": "01",
-          "purchasesCount6M": "6",
-          "addCardAttempts24H": "24",
-          "transactionsCount24H": "23",
-          "transactionsCount1Y": "998",
-          "cardSavedDate": "20190223",
-          "cardSavedInd": "02",
-          "addressFirstUseDate": "20190224",
-          "addressFirstUseInd": "03",
-          "nameInd": "02",
-          "suspiciousActivityInd": "01"
-        }
-      }
+      "threeD": {}
     }
   },
   "billingAddress": {
