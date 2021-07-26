@@ -1,5 +1,5 @@
-import 'bootswatch/dist/darkly/bootstrap.min.css'
-import Layout from '../components/Layout'
-import './global.css'
+import 'bootswatch/dist/darkly/bootstrap.min.css';
+import Layout from '../components/common/Layout';
+import './global.css';
 
-export default Layout
+export default Layout;

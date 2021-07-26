@@ -1,4 +1,4 @@
-import { payment } from './helpers/neuveiHelper';
+import { payment } from '../helpers/neuveiHelper';
 
 export default async function handler(req, res) {
   const { method } = req;
