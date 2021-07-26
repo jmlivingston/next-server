@@ -40,7 +40,7 @@ const NEXT_PUBLIC_JENKINS_USER_TOKEN = process.env.NEXT_PUBLIC_JENKINS_URL;
 
 const OPTIMIZELY_CONFIG = JSON.parse(process.env.NEXT_PUBLIC_OPTIMIZELY_CONFIG);
 
-const disabled = false;
+const disabled = true;
 const ROUTES = Object.freeze({
   CONVERT_FILE: {
     disabled,
