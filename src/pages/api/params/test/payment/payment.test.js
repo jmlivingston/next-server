@@ -47,6 +47,7 @@ const testApi = async ({ cardHolderName, cardNumber, mode }) => {
   };
   logs.push('initPayment');
   const initPaymentResponse = await initPayment(initPaymentParams);
+  const isFallback = mode === NEUVEI_3D_MODE.FALLBACK; // HACK: this value not returning properly for fallback initPaymentResponse.paymentOption.card.threeD.v2supported === 'false';
   let paymentParams = {
     ...initPaymentParams,
     checksum: sessionResponse.checksum,
@@ -55,10 +56,11 @@ const testApi = async ({ cardHolderName, cardNumber, mode }) => {
     relatedTransactionId: initPaymentResponse.transactionId,
     sessionToken: sessionResponse.sessionToken,
     timeStamp: sessionResponse.timeStamp,
+    isFallback,
+    isLiabilityShift: false,
   };
   logs.push('payment');
-  const paymentResponse = await payment(paymentParams);
-
+  let paymentResponse = await payment(paymentParams);
   const isChallenge = paymentResponse.transactionStatus === 'REDIRECT';
   if (isChallenge) {
     const challengeUrl = NEUVEI_API_CHALLENGE_SIMULATOR({
@@ -68,12 +70,20 @@ const testApi = async ({ cardHolderName, cardNumber, mode }) => {
     logs.push('challengeUrl');
     await fetch(challengeUrl);
   }
-  if (paymentResponse.paymentOption.card.threeD.result === 'N' || isChallenge) {
+  if (isFallback) {
+    // TBD
+    logs.push('3D Secure - emulator');
+  }
+  if (isFallback || isChallenge) {
+    paymentParams.isLiabilityShift = true;
+    paymentParams.paResponse = isChallenge ? undefined : '{{PaResponse}}'; // HACK comes from somewhere?
     paymentParams.relatedTransactionId = paymentResponse.transactionId;
     logs.push('payment (liability shift)');
-    await payment(paymentParams);
+    paymentResponse = await payment(paymentParams);
   }
-  console.log(logs.join(' -> '));
+  console.log(logs.join(' -> '), JSON.stringify(paymentResponse, null, 2));
+  expect(paymentResponse.status).toBe('SUCCESS');
+  expect(paymentResponse.transactionStatus).toBe('APPROVED');
 };
 
 describe('payment flows', () => {

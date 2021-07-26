@@ -89,6 +89,8 @@ const payment = async ({
   CVV,
   expirationMonth,
   expirationYear,
+  isFallback,
+  isLiabilityShift,
   notificationURL,
   paResponse,
   relatedTransactionId,
@@ -109,6 +111,8 @@ const payment = async ({
     CVV,
     expirationMonth,
     expirationYear,
+    isFallback,
+    isLiabilityShift,
     merchantId: NEUVEI_MERCHANT_ID,
     merchantSiteId: NEUVEI_MERCHANT_SITE_ID,
     notificationURL,
@@ -131,8 +135,6 @@ const payment = async ({
   } else {
     return paymentResponseJson;
   }
-
-  // return { id: 'foo' };
 };
 
 export { getIdsTimeStamp, getSessionToken, initPayment, payment };
