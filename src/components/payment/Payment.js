@@ -1,6 +1,6 @@
 import { useMachine } from '@xstate/react';
 import React, { useState } from 'react';
-import { API_ROUTES } from '../../utility/CONSTANTS';
+import { API_ROUTES } from '../../config/CONSTANTS';
 import Input from '../common/Input';
 import { defaultFormState, strings } from './paymentConfig';
 import paymentMachine from './paymentMachine2';

@@ -1,5 +1,5 @@
 import { assign, createMachine } from 'xstate';
-import { API_ROUTES } from '../../utility/CONSTANTS';
+import { API_ROUTES } from '../../config/CONSTANTS';
 
 const handleData = (data) => {
   if (data.ok) {

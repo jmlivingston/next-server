@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { NEUVEI_MERCHANT_ID, NEUVEI_MERCHANT_SITE_ID } from '../../../../utility/CONSTANTS';
+import { NEUVEI_MERCHANT_ID, NEUVEI_MERCHANT_SITE_ID } from '../../../../config/CONSTANTS';
 
 const getInitPaymentParams = ({
   amount,

@@ -1,12 +1,7 @@
 import AWS from 'aws-sdk';
 import fs from 'fs';
 import path from 'path';
-import {
-  AWS_ACCESS_KEY_ID,
-  AWS_S3_BUCKET,
-  AWS_SECRET_ACCESS_KEY,
-  AWS_SIGNATURE_VERSION,
-} from '../../utility/CONSTANTS';
+import { AWS_ACCESS_KEY_ID, AWS_S3_BUCKET, AWS_SECRET_ACCESS_KEY, AWS_SIGNATURE_VERSION } from '../../config/CONSTANTS';
 
 export default async function handler(req, res) {
   try {

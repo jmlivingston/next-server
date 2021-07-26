@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import {
-  NEXT_PUBLIC_JENKINS_USER_TOKEN,
-  NEXT_PUBLIC_JENKINS_URL,
-} from '../utility/CONSTANTS'
+import React, { useEffect, useState } from 'react';
+import { NEXT_PUBLIC_JENKINS_USER_TOKEN, NEXT_PUBLIC_JENKINS_URL } from '../config/CONSTANTS';
 
 function Jenkins() {
-  console.log(NEXT_PUBLIC_JENKINS_URL)
-  const Authorization = `Basic ${NEXT_PUBLIC_JENKINS_USER_TOKEN}`
-  const [data, setData] = useState()
+  console.log(NEXT_PUBLIC_JENKINS_URL);
+  const Authorization = `Basic ${NEXT_PUBLIC_JENKINS_USER_TOKEN}`;
+  const [data, setData] = useState();
 
   async function getListOfJenkinsJobs() {
     const response = await fetch(
@@ -20,15 +17,15 @@ function Jenkins() {
           'Content-Type': 'application/json',
         },
       }
-    )
-    setData(response)
+    );
+    setData(response);
   }
 
   useEffect(() => {
-    ;(async () => {
-      getListOfJenkinsJobs()
-    })()
-  }, [])
+    (async () => {
+      getListOfJenkinsJobs();
+    })();
+  }, []);
 
   return (
     <div>
@@ -37,7 +34,7 @@ function Jenkins() {
         <code>{JSON.stringify(data, null, 2)}</code>
       </pre>
     </div>
-  )
+  );
 }
 
-export default Jenkins
+export default Jenkins;

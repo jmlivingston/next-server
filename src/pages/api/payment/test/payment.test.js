@@ -1,6 +1,6 @@
 // import fs from 'fs';
 // import path from 'path';
-import { NEUVEI_3D_MODE, NEUVEI_API_CHALLENGE_SIMULATOR } from '../../../../utility/CONSTANTS';
+import { NEUVEI_3D_MODE, NEUVEI_API_CHALLENGE_SIMULATOR } from '../../../../config/CONSTANTS';
 import { getSessionToken, initPayment, payment } from '../helpers/neuveiHelper';
 // import { getPaymentParams } from '../../payment';
 import fetch from 'node-fetch';

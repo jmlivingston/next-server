@@ -1,7 +1,7 @@
 import sha256 from 'crypto-js/sha256';
 import { format as dateFnsFormat } from 'date-fns';
 import { v4 as uuidV4 } from 'uuid';
-import { NEUVEI_KEY, NEUVEI_MERCHANT_ID, NEUVEI_MERCHANT_SITE_ID } from '../../../../utility/CONSTANTS';
+import { NEUVEI_KEY, NEUVEI_MERCHANT_ID, NEUVEI_MERCHANT_SITE_ID } from '../../../../config/CONSTANTS';
 
 const getIdsTimeStamp = ({ clientRequestId } = {}) => {
   clientRequestId = clientRequestId || uuidV4();

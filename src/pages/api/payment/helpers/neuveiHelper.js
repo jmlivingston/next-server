@@ -6,7 +6,7 @@ import {
   NEUVEI_API_PAYMENT,
   NEUVEI_MERCHANT_ID,
   NEUVEI_MERCHANT_SITE_ID,
-} from '../../../../utility/CONSTANTS';
+} from '../../../../config/CONSTANTS';
 import { getIdsTimeStamp, getSessionTokenParams } from '../params/getSessionToken';
 import { getInitPaymentParams } from '../params/initPayment';
 import { getPaymentParams } from '../params/payment';

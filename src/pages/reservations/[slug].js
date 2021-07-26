@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import OptimizelyTester from '../../components/optimizely/OptimizelyTester';
-import { OPTIMIZELY_CONFIG } from '../../utility/CONSTANTS';
+import { OPTIMIZELY_CONFIG } from '../../config/CONSTANTS';
 
 const OptimizelyRoutes = () => {
   return (
