@@ -40,19 +40,20 @@ const NEXT_PUBLIC_JENKINS_USER_TOKEN = process.env.NEXT_PUBLIC_JENKINS_URL;
 
 const OPTIMIZELY_CONFIG = JSON.parse(process.env.NEXT_PUBLIC_OPTIMIZELY_CONFIG);
 
+const disabled = false;
 const ROUTES = Object.freeze({
   CONVERT_FILE: {
-    disabled: true,
+    disabled,
     display: 'Convert File',
     path: '/pages/convert-file',
   },
-  FSM: { disabled: true, display: 'Simple FSM', path: '/pages/fsm' },
+  FSM: { disabled, display: 'Simple FSM', path: '/pages/fsm' },
   HOME: { display: 'Home', path: '/' },
-  JENKINS: { disabled: true, display: 'Jenkins', path: '/pages/jenkins' },
-  OPTIMIZELY: { disabled: true, display: 'Optimizely', path: '/reservations/start' },
+  JENKINS: { disabled, display: 'Jenkins', path: '/pages/jenkins' },
+  OPTIMIZELY: { disabled, display: 'Optimizely', path: '/reservations/start' },
   PAYMENT: { display: 'Payment', path: '/pages/payment' },
-  PAYMENT_CHALLENGE: { display: 'Payment Challenge', path: '/pages/payment-challenge', disabled: true },
-  PAYMENT_COMPLETE: { display: 'Payment Complete', path: '/pages/payment-complete', disabled: true },
+  PAYMENT_CHALLENGE: { display: 'Payment Challenge', path: '/pages/payment-challenge', disabled },
+  PAYMENT_COMPLETE: { display: 'Payment Complete', path: '/pages/payment-complete', disabled },
 });
 
 export {
