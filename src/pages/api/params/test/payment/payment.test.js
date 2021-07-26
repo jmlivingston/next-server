@@ -81,7 +81,23 @@ const testApi = async ({ cardHolderName, cardNumber, mode }) => {
     logs.push('payment (liability shift)');
     paymentResponse = await payment(paymentParams);
   }
-  console.log(logs.join(' -> '), JSON.stringify(paymentResponse, null, 2));
+  const flow = logs.join(' -> ');
+  console.log(flow); //, JSON.stringify(paymentResponse, null, 2));
+  switch (mode) {
+    case NEUVEI_3D_MODE.CHALLENGE:
+      expect(flow).toBe(
+        'CHALLENGE -> getSessionToken -> initPayment -> payment -> challengeUrl -> payment (liability shift)'
+      );
+      break;
+    case NEUVEI_3D_MODE.FRICTIONLESS:
+      expect(flow).toBe('FRICTIONLESS -> getSessionToken -> initPayment -> payment');
+      break;
+    case NEUVEI_3D_MODE.FALLBACK:
+      expect(flow).toBe(
+        'FALLBACK -> getSessionToken -> initPayment -> payment -> 3D Secure - emulator -> payment (liability shift)'
+      );
+      break;
+  }
   expect(paymentResponse.status).toBe('SUCCESS');
   expect(paymentResponse.transactionStatus).toBe('APPROVED');
 };
