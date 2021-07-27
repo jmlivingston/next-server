@@ -26,7 +26,6 @@ const API_TIMEOUT = 20000;
 // });
 
 const cardDetails = {
-  amount: '500',
   currency: 'GBP',
   CVV: '217',
   expirationMonth: '12',
@@ -36,12 +35,13 @@ const cardDetails = {
 const notificationURL =
   'http://wwww.Test-Notification-URL-After-The-Challange-Is-Complete-Which-Recieves-The-CRes-Message.com';
 
-const testApi = async ({ cardHolderName, cardNumber, mode }) => {
+const testApi = async ({ amount, cardHolderName, cardNumber, mode }) => {
   const logs = [mode];
   logs.push('getSessionToken');
   const sessionResponse = await getSessionToken();
   const initPaymentParams = {
     ...cardDetails,
+    amount,
     cardHolderName,
     cardNumber,
     clientRequestId: sessionResponse.clientRequestId,
@@ -100,9 +100,9 @@ const testApi = async ({ cardHolderName, cardNumber, mode }) => {
       );
       break;
   }
-  if (paymentResponse.transactionStatus === 'ERROR') {
-    console.log(JSON.stringify(paymentResponse, null, 2));
-  }
+  // if (paymentResponse.transactionStatus === 'ERROR') {
+  console.log(JSON.stringify(paymentResponse, null, 2));
+  // }
   expect(paymentResponse.status).toBe('SUCCESS');
   expect(paymentResponse.transactionStatus).toBe('APPROVED');
 };
@@ -116,6 +116,7 @@ describe('payment flows', () => {
     NEUVEI_3D_MODE.CHALLENGE,
     async () => {
       await testApi({
+        amount: '500',
         cardHolderName: 'CL-BRW1',
         cardNumber: '4000020951595032',
         mode: NEUVEI_3D_MODE.CHALLENGE,
@@ -128,6 +129,7 @@ describe('payment flows', () => {
     NEUVEI_3D_MODE.FRICTIONLESS,
     async () => {
       await testApi({
+        amount: '500',
         cardHolderName: 'FL-BRW1',
         cardNumber: '4000027891380961',
         mode: NEUVEI_3D_MODE.FRICTIONLESS,
@@ -140,8 +142,9 @@ describe('payment flows', () => {
     NEUVEI_3D_MODE.FALLBACK,
     async () => {
       await testApi({
-        cardHolderName: 'john smith',
-        cardNumber: '4012001037141112',
+        amount: '500',
+        cardHolderName: 'John Smith',
+        cardNumber: '4012001037141112', // TODO: investigate why not in test cards documentation
         mode: NEUVEI_3D_MODE.FALLBACK,
       });
     },

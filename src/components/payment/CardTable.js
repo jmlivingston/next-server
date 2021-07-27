@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { TEST_CARDS } from './paymentConfig';
+import { getTestCards } from './paymentConfig';
 
 const CardTable = () => {
-  const [cards, setCards] = useState(TEST_CARDS);
+  const [cards, setCards] = useState(getTestCards());
   const onClick = ({ key, card }) => {
     setCards({
       ...cards,

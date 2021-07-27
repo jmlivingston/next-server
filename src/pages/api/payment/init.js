@@ -1,5 +1,5 @@
 import { v4 as uuidV4 } from 'uuid';
-import { initPayment } from '../helpers/neuveiHelper';
+import { initPayment } from './helpers/neuveiHelper';
 
 export default async function handler(req, res) {
   const { method } = req;
