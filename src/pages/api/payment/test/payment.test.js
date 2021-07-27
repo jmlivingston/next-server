@@ -100,17 +100,17 @@ const testApi = async ({ amount, cardHolderName, cardNumber, mode }) => {
       );
       break;
   }
-  // if (paymentResponse.transactionStatus === 'ERROR') {
-  console.log(JSON.stringify(paymentResponse, null, 2));
-  // }
+  if (paymentResponse.transactionStatus === 'ERROR') {
+    console.log(JSON.stringify(paymentResponse, null, 2));
+  }
   expect(paymentResponse.status).toBe('SUCCESS');
   expect(paymentResponse.transactionStatus).toBe('APPROVED');
 };
 
 describe('payment flows', () => {
-  // test('getSessionToken', async () => {
-  //   await getSessionToken();
-  // });
+  test('getSessionToken', async () => {
+    await getSessionToken();
+  });
 
   test(
     NEUVEI_3D_MODE.CHALLENGE,

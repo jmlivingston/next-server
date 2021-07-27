@@ -1,10 +1,16 @@
 import { useMachine } from '@xstate/react';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { API_ROUTES } from '../../config/CONSTANTS';
+import { API_ROUTES, ROUTES } from '../../config/CONSTANTS';
 import Input from '../common/Input';
 import { defaultFormState, getTestCardHolders, getTestCards, strings } from './paymentConfig';
 import paymentMachine from './paymentMachine';
+
+const FLOW_STATE = Object.freeze({
+  COMPLETE: 'Complete',
+  LIABILITY_SHIFT: 'Liability shift',
+  UNSUBMITTED: 'Not submitted',
+});
 
 function Payment({ isInspectorOnly }) {
   const cards = getTestCards({ useBasic: true });
@@ -21,6 +27,8 @@ function Payment({ isInspectorOnly }) {
   const {
     query: { challenge },
   } = useRouter();
+  const showExtraFields = false;
+
   useEffect(() => {
     (async () => {
       if (challenge === 'accepted') {
@@ -32,7 +40,6 @@ function Payment({ isInspectorOnly }) {
         }
       }
     })();
-    setCardHolder(activeCard.value);
   }, []);
 
   const callPayment = async (body) => {
@@ -48,14 +55,14 @@ function Payment({ isInspectorOnly }) {
     let paymentResponseJson = await paymentResponse.json();
     setPaymentResponseState({ ...body, ...paymentResponseJson });
     setIsSubmitting(false);
-    setError(paymentResponseJson.transactionStatus); // + ' - ' + paymentResponseJson.status);
+    setError(paymentResponseJson.transactionStatus);
     switch (flowState) {
       case 'unsubmitted':
         if (paymentResponseJson.transactionStatus === 'APPROVED' && !isFallback) {
           // Frictionless
           setFlowState('unsubmitted');
         } else {
-          setFlowState(paymentResponseJson.transactionStatus === 'REDIRECT' ? 'challenge' : 'liabilityShift');
+          setFlowState(paymentResponseJson.transactionStatus === 'REDIRECT' ? 'challenge' : 'unsubmitted');
         }
         break;
       case 'liabilityShift':
@@ -80,7 +87,6 @@ function Payment({ isInspectorOnly }) {
           isFallback: paymentResponseJson.isFallback,
           isInit: paymentResponseJson.isInit,
           isLiabilityShift: true,
-          // paResponse: isChallenge ? undefined : '{{PaResponse}}', //HACK comes from somewhere?
           relatedTransactionId: paymentResponseJson.transactionId,
           sessionToken: paymentResponseJson.sessionToken,
         })
@@ -91,35 +97,25 @@ function Payment({ isInspectorOnly }) {
   const onSubmit = async (event) => {
     event?.preventDefault();
     const isInit = flowState === 'unsubmitted';
-    let body;
-    if (isInit) {
+    let body = {
+      amount: formState.amount,
+      cardHolderName: formState.cardHolderName,
+      cardNumber: formState.cardNumber,
+      currency: formState.currency,
+      CVV: formState.CVV,
+      expirationMonth: formState.expirationMonth,
+      expirationYear: formState.expirationYear,
+      isFallback,
+      isInit,
+      isLiabilityShift: false,
+      notificationURL: ROUTES.PAYMENT_NOTIFICATION_URL.path,
+    };
+
+    if (!isInit) {
       body = {
-        amount: formState.amount,
-        cardHolderName: formState.cardHolderName,
-        cardNumber: formState.cardNumber,
-        currency: formState.currency,
-        CVV: formState.CVV,
-        expirationMonth: formState.expirationMonth,
-        expirationYear: formState.expirationYear,
-        isFallback,
-        isInit,
-        isLiabilityShift: false,
-        notificationURL: 'http://localhost:9000/pages/payment?challenge=accepted',
-      };
-    } else {
-      body = {
-        amount: formState.amount,
-        cardHolderName: formState.cardHolderName,
-        cardNumber: formState.cardNumber,
+        ...body,
         clientRequestId: paymentResponseState.clientRequestId,
-        currency: formState.currency,
-        CVV: formState.CVV,
-        expirationMonth: formState.expirationMonth,
-        expirationYear: formState.expirationYear,
-        isFallback,
-        isInit,
         isLiabilityShift: true,
-        paResponse: flowState === 'challenge' ? undefined : '{{PaResponse}}', //HACK comes from somewhere?
         relatedTransactionId: paymentResponseState.transactionId,
         sessionToken: paymentResponseState.sessionToken,
       };
@@ -134,20 +130,6 @@ function Payment({ isInspectorOnly }) {
     });
   };
 
-  const setCardHolder = (card) => {
-    // switch (card) {
-    //   case '4000020951595032':
-    //     setActiveUser(users['CL-BRW1']);
-    //     break;
-    //   case '4000027891380961':
-    //     setActiveUser(users['FL-BRW1']);
-    //     break;
-    //   case '4012001037141112':
-    //     setActiveUser(users['John Smith']);
-    //     break;
-    // }
-  };
-
   const onCardChange = (event) => {
     const activeCard = cards[event.target.value];
     setActiveCard(activeCard);
@@ -155,7 +137,6 @@ function Payment({ isInspectorOnly }) {
       ...formState,
       cardNumber: activeCard.value,
     });
-    setCardHolder(activeCard.value);
   };
 
   const onCardHolderChange = (event) => {
@@ -184,7 +165,6 @@ function Payment({ isInspectorOnly }) {
                 })}
               </select>
               <form onSubmit={onSubmit}>
-                {/* <Input name="cardHolderName" strings={strings} value={formState.cardHolderName} onChange={onInputChange} /> */}
                 <label className="form-label">Cardholder Name</label>
                 <select className="form-select" value={activeUser.value} onChange={onCardHolderChange}>
                   {Object.entries(users).map(([key, user]) => {
@@ -247,31 +227,28 @@ function Payment({ isInspectorOnly }) {
                     />
                   </div>
                 </div>
-                {/* <div className="form-check mt-2">
-              {isFallback.toString()}
-              <input
-                className="form-check-input"
-                type="checkbox"
-                checked={isFallback}
-                onChange={() => setIsFallback(!isFallback)}
-                id="fall-back"
-              />
-              <label className="form-check-label" htmlFor="fall-back">
-                Is Fallback?
-              </label>
-            </div> */}
-                {/* <hr />
-            <div className="row">
-              <div className="col">
-                <Input name="address1" strings={strings} value={formState.address1} onChange={onInputChange} />
-              </div>
-              <div className="col">
-                <Input name="address2" strings={strings} value={formState.address2} onChange={onInputChange} />
-              </div>
-            </div>
-            <Input name="city" strings={strings} value={formState.city} onChange={onInputChange} />
-            <Input name="state" strings={strings} value={formState.state} onChange={onInputChange} />{' '}
-            <Input name="zipCode" type="number" strings={strings} value={formState.zipCode} onChange={onInputChange} /> */}
+                {showExtraFields && (
+                  <>
+                    <hr />
+                    <div className="row">
+                      <div className="col">
+                        <Input name="address1" strings={strings} value={formState.address1} onChange={onInputChange} />
+                      </div>
+                      <div className="col">
+                        <Input name="address2" strings={strings} value={formState.address2} onChange={onInputChange} />
+                      </div>
+                    </div>
+                    <Input name="city" strings={strings} value={formState.city} onChange={onInputChange} />
+                    <Input name="state" strings={strings} value={formState.state} onChange={onInputChange} />{' '}
+                    <Input
+                      name="zipCode"
+                      type="number"
+                      strings={strings}
+                      value={formState.zipCode}
+                      onChange={onInputChange}
+                    />
+                  </>
+                )}
                 {flowState !== 'challenge' && (
                   <div className="text-end">
                     <button className="btn btn-primary mt-3 text-end" disabled={isSubmitting}>
@@ -300,16 +277,7 @@ function Payment({ isInspectorOnly }) {
             <div className="col-6">
               <p>Response</p>
               <pre>
-                <code>
-                  {JSON.stringify(
-                    {
-                      ...paymentResponseState,
-                      //formState
-                    },
-                    null,
-                    2
-                  )}
-                </code>
+                <code>{JSON.stringify(paymentResponseState, null, 2)}</code>
               </pre>
             </div>
           </div>
@@ -318,7 +286,5 @@ function Payment({ isInspectorOnly }) {
     </>
   );
 }
-
-Payment.propTypes = {};
 
 export default Payment;

@@ -41,6 +41,7 @@ const NEXT_PUBLIC_JENKINS_USER_TOKEN = process.env.NEXT_PUBLIC_JENKINS_URL;
 const OPTIMIZELY_CONFIG = JSON.parse(process.env.NEXT_PUBLIC_OPTIMIZELY_CONFIG);
 
 const disabled = true;
+
 const ROUTES = Object.freeze({
   CONVERT_FILE: {
     disabled,
@@ -56,6 +57,11 @@ const ROUTES = Object.freeze({
   PAYMENT_CARD_TABLE: { display: 'Payment Cards', path: '/pages/payment-card-table' },
   PAYMENT_CHALLENGE: { display: 'Payment Challenge', path: '/pages/payment-challenge', disabled },
   PAYMENT_COMPLETE: { display: 'Payment Complete', path: '/pages/payment-complete', disabled },
+  PAYMENT_NOTIFICATION_URL: {
+    display: 'Payment Complete',
+    path: `${typeof window !== 'undefined' ? window.location.origin : ''}/pages/payment?challenge=accepted`,
+    disabled: true,
+  },
 });
 
 export {

@@ -2,9 +2,6 @@ import { getSessionToken, initPayment, payment } from './helpers/neuveiHelper';
 
 export default async function handler(req, res) {
   const { method } = req;
-  const notificationURL =
-    req.body.notificationURL ||
-    'http://wwww.Test-Notification-URL-After-The-Challange-Is-Complete-Which-Recieves-The-CRes-Message.com';
   try {
     if (method === 'POST') {
       if (req.body.isInit) {
@@ -20,13 +17,22 @@ export default async function handler(req, res) {
           ...initPaymentParams,
           checksum: sessionResponse.checksum,
           clientRequestId: initPaymentResponse.clientRequestId,
-          notificationURL,
           relatedTransactionId: initPaymentResponse.transactionId,
           sessionToken: sessionResponse.sessionToken,
           timeStamp: sessionResponse.timeStamp,
           isLiabilityShift: false,
         };
-        const paymentResponse = await payment(paymentParams);
+        let paymentResponse = await payment(paymentParams);
+        if (req.body.isFallback) {
+          paymentParams = {
+            ...paymentParams,
+            isLiabilityShift: true,
+            paResponse: req.body.paResponse || '{{PaResponse}}', // HACK comes from somewhere?
+            relatedTransactionId: paymentResponse.transactionId,
+            sessionToken: paymentResponse.sessionToken,
+          };
+          paymentResponse = await payment(paymentParams);
+        }
         res.status(200).json(paymentResponse);
       } else {
         const paymentResponse = await payment(req.body);
