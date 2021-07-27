@@ -52,6 +52,7 @@ const ROUTES = Object.freeze({
   JENKINS: { disabled, display: 'Jenkins', path: '/pages/jenkins' },
   OPTIMIZELY: { disabled, display: 'Optimizely', path: '/reservations/start' },
   PAYMENT: { display: 'Payment', path: '/pages/payment' },
+  PAYMENT_CARD_TABLE: { display: 'Payment Cards', path: '/pages/payment-card-table' },
   PAYMENT_CHALLENGE: { display: 'Payment Challenge', path: '/pages/payment-challenge', disabled },
   PAYMENT_COMPLETE: { display: 'Payment Complete', path: '/pages/payment-complete', disabled },
 });

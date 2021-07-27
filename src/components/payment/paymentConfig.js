@@ -55,7 +55,7 @@ const CARD_TRANSACTION_TYPE = Object.freeze({
 });
 
 // https://docs.safecharge.com/documentation/guides/testing/testing-cards/
-const testCards = [
+let TEST_CARDS = [
   // NOT_THREE_D
   {
     type: CARD_TYPE.VISA,
@@ -733,4 +733,11 @@ const testCards = [
   },
 ];
 
-export { CARD_TYPE, CARD_TRANSACTION_TYPE, CARD_COUNTRY, CARD_RESULT, defaultFormState, strings, testCards };
+TEST_CARDS = TEST_CARDS.reduce((acc, card, index) => {
+  return {
+    ...acc,
+    [`${card.value}_${index}`]: { ...card, id: `${card.value}_${index}`, value: card.value.toString() },
+  };
+}, {});
+
+export { CARD_TYPE, CARD_TRANSACTION_TYPE, CARD_COUNTRY, CARD_RESULT, defaultFormState, strings, TEST_CARDS };

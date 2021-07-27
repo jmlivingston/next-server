@@ -4,6 +4,7 @@ import React from 'react';
 import ConvertFile from '../../components/ConvertFile';
 import FsmContainer from '../../components/fsm/FsmContainer';
 import Jenkins from '../../components/Jenkins';
+import CardTable from '../../components/payment/CardTable';
 import PaymentChallenge from '../../components/payment/PaymentChallenge';
 import PaymentComplete from '../../components/payment/PaymentComplete';
 import PaymentContainer from '../../components/payment/PaymentContainer';
@@ -25,6 +26,9 @@ const Pages = () => {
       break;
     case 'payment':
       Component = PaymentContainer;
+      break;
+    case 'payment-card-table':
+      Component = CardTable;
       break;
     case 'payment-challenge':
       Component = PaymentChallenge;

@@ -3,7 +3,12 @@ import Payment from './Payment';
 
 const PaymentContainer = () => {
   const isInspectorOnly = false;
-  return (
+  const isPaymentOnly = true;
+  return isPaymentOnly ? (
+    <div className="container">
+      <Payment />
+    </div>
+  ) : (
     <>
       <div className="row">
         {isInspectorOnly ? (
