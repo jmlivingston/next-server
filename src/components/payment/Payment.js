@@ -179,75 +179,83 @@ function Payment({ isInspectorOnly }) {
     <>
       {isInspectorOnly ? null : (
         <>
-          <label className="form-label">Card</label>
-          <select className="form-select" value={activeCard.id} onChange={onCardChange}>
-            {Object.entries(cards).map(([key, card]) => {
-              return (
-                <option key={key} value={key}>{`${card.value} - ${card.type} - ${card.transactionType} - ${
-                  card.country || 'N/A'
-                } - ${card.expected} ${card.notes ? ` - ${card.notes}` : ''}`}</option>
-              );
-            })}
-          </select>
-          <form onSubmit={onSubmit}>
-            {/* <Input name="cardHolderName" strings={strings} value={formState.cardHolderName} onChange={onInputChange} /> */}
-            <label className="form-label">Cardholder Name</label>
-            <select className="form-select" value={activeUser.value} onChange={onCardHolderChange}>
-              {Object.entries(users).map(([key, user]) => {
-                return <option key={key} value={key}>{`${user.value} - ${user.notes}`}</option>;
-              })}
-            </select>
-            <div className="row">
-              <div className="col">
-                <Input
-                  name="amount"
-                  strings={strings}
-                  type="number"
-                  value={formState.amount}
-                  onChange={onInputChange}
-                />
-              </div>
-              <div className="col">
-                <Input name="currency" strings={strings} value={formState.currency} onChange={onInputChange} />
-              </div>
-            </div>
-            <div className="row">
-              <div className="col">
-                <Input
-                  name="cardNumber"
-                  strings={strings}
-                  type="password"
-                  value={activeCard.value}
-                  onChange={onInputChange}
-                  readOnly
-                  disabled
-                />
-              </div>
-              <div className="col">
-                <Input name="CVV" strings={strings} type="password" value={formState.CVV} onChange={onInputChange} />
-              </div>
-            </div>
-            <div className="row">
-              <div className="col">
-                <Input
-                  name="expirationMonth"
-                  strings={strings}
-                  type="number"
-                  value={formState.expirationMonth}
-                  onChange={onInputChange}
-                />
-              </div>
-              <div className="col">
-                <Input
-                  name="expirationYear"
-                  strings={strings}
-                  type="number"
-                  value={formState.expirationYear}
-                  onChange={onInputChange}
-                />
-              </div>
-            </div>
-            {/* <div className="form-check mt-2">
+          <div className="row">
+            <div className="col-6">
+              <label className="form-label">Card</label>
+              <select className="form-select" value={activeCard.id} onChange={onCardChange}>
+                {Object.entries(cards).map(([key, card]) => {
+                  return (
+                    <option key={key} value={key}>{`${card.value} - ${card.type} - ${card.transactionType} - ${
+                      card.country || 'N/A'
+                    } - ${card.expected} ${card.notes ? ` - ${card.notes}` : ''}`}</option>
+                  );
+                })}
+              </select>
+              <form onSubmit={onSubmit}>
+                {/* <Input name="cardHolderName" strings={strings} value={formState.cardHolderName} onChange={onInputChange} /> */}
+                <label className="form-label">Cardholder Name</label>
+                <select className="form-select" value={activeUser.value} onChange={onCardHolderChange}>
+                  {Object.entries(users).map(([key, user]) => {
+                    return <option key={key} value={key}>{`${user.value} - ${user.notes}`}</option>;
+                  })}
+                </select>
+                <div className="row">
+                  <div className="col">
+                    <Input
+                      name="amount"
+                      strings={strings}
+                      type="number"
+                      value={formState.amount}
+                      onChange={onInputChange}
+                    />
+                  </div>
+                  <div className="col">
+                    <Input name="currency" strings={strings} value={formState.currency} onChange={onInputChange} />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col">
+                    <Input
+                      name="cardNumber"
+                      strings={strings}
+                      type="password"
+                      value={activeCard.value}
+                      onChange={onInputChange}
+                      readOnly
+                      disabled
+                    />
+                  </div>
+                  <div className="col">
+                    <Input
+                      name="CVV"
+                      strings={strings}
+                      type="password"
+                      value={formState.CVV}
+                      onChange={onInputChange}
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col">
+                    <Input
+                      name="expirationMonth"
+                      strings={strings}
+                      type="number"
+                      value={formState.expirationMonth}
+                      onChange={onInputChange}
+                    />
+                  </div>
+                  <div className="col">
+                    <Input
+                      name="expirationYear"
+                      strings={strings}
+                      type="number"
+                      value={formState.expirationYear}
+                      onChange={onInputChange}
+                    />
+                  </div>
+                </div>
+                {/* <div className="form-check mt-2">
               {isFallback.toString()}
               <input
                 className="form-check-input"
@@ -260,7 +268,7 @@ function Payment({ isInspectorOnly }) {
                 Is Fallback?
               </label>
             </div> */}
-            {/* <hr />
+                {/* <hr />
             <div className="row">
               <div className="col">
                 <Input name="address1" strings={strings} value={formState.address1} onChange={onInputChange} />
@@ -272,33 +280,33 @@ function Payment({ isInspectorOnly }) {
             <Input name="city" strings={strings} value={formState.city} onChange={onInputChange} />
             <Input name="state" strings={strings} value={formState.state} onChange={onInputChange} />{' '}
             <Input name="zipCode" type="number" strings={strings} value={formState.zipCode} onChange={onInputChange} /> */}
-            {flowState !== 'challenge' && (
-              <div className="text-end">
-                <button className="btn btn-primary mt-3 text-end" disabled={isSubmitting}>
-                  {isSubmitting && (
-                    <>
-                      <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>{' '}
-                    </>
-                  )}
-                  {strings.submit}
-                </button>
-              </div>
-            )}
-          </form>
-          <h1>{flowState}</h1>
-          {challengeUrl && (
-            <>
-              Click to fullfill challenge: <a href={challengeUrl}>Challenge Link</a>
-            </>
-          )}
-          {error && (
-            <div className={`alert alert-${error.includes('ERROR') ? 'danger' : 'success'} mt-3`} role="alert">
-              {error}
+                {flowState !== 'challenge' && (
+                  <div className="text-end">
+                    <button className="btn btn-primary mt-3 text-end" disabled={isSubmitting}>
+                      {isSubmitting && (
+                        <>
+                          <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>{' '}
+                        </>
+                      )}
+                      {strings.submit}
+                    </button>
+                  </div>
+                )}
+              </form>
+              <h1>{flowState}</h1>
+              {challengeUrl && (
+                <>
+                  Click to fullfill challenge: <a href={challengeUrl}>Challenge Link</a>
+                </>
+              )}
+              {error && (
+                <div className={`alert alert-${error.includes('ERROR') ? 'danger' : 'success'} mt-3`} role="alert">
+                  {error}
+                </div>
+              )}
             </div>
-          )}
-          {(paymentResponseState || formState) && (
-            <>
-              <hr />
+            <div className="col-6">
+              <p>Response</p>
               <pre>
                 <code>
                   {JSON.stringify(
@@ -311,8 +319,8 @@ function Payment({ isInspectorOnly }) {
                   )}
                 </code>
               </pre>
-            </>
-          )}
+            </div>
+          </div>
         </>
       )}
     </>

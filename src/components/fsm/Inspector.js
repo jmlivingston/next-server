@@ -1,7 +1,7 @@
 import { inspect } from '@xstate/inspect';
 import React from 'react';
 
-const Inspector = ({ newWindow }) => {
+const Inspector = ({ newWindow = false }) => {
   if (typeof window !== 'undefined') {
     inspect({ iframe: newWindow ? false : () => document.getElementById('fsm-iframe') });
   }

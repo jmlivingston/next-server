@@ -13,6 +13,7 @@ const Pages = () => {
   const router = useRouter();
   const { slug } = router.query;
   let Component;
+  let props = {};
 
   switch (slug) {
     case 'convert-file':
@@ -26,6 +27,10 @@ const Pages = () => {
       break;
     case 'payment':
       Component = PaymentContainer;
+      break;
+    case 'payment-diagram':
+      Component = PaymentContainer;
+      props = { isPaymentOnly: false, isInspectorOnly: true };
       break;
     case 'payment-card-table':
       Component = CardTable;
@@ -47,7 +52,7 @@ const Pages = () => {
           <title>{slug?.substr(0, 1)?.toUpperCase() + slug?.substr(1)}</title>
         </Head>
       )}
-      <Component />
+      <Component {...props} />
     </>
   );
 };

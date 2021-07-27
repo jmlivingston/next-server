@@ -9,7 +9,7 @@ function Layout({ Component, pageProps }) {
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container">
+        <div className="container-fluid">
           <Link href={ROUTES.HOME.path}>
             <a className="navbar-brand" href={ROUTES.HOME.path}>
               {ROUTES.HOME.display}

@@ -1,9 +1,7 @@
 import Inspector from '../fsm/Inspector';
 import Payment from './Payment';
 
-const PaymentContainer = () => {
-  const isInspectorOnly = false;
-  const isPaymentOnly = true;
+const PaymentContainer = ({ isInspectorOnly = false, isPaymentOnly = true } = {}) => {
   return isPaymentOnly ? (
     <div className="container">
       <Payment />
@@ -19,7 +17,8 @@ const PaymentContainer = () => {
           </div>
         )}
         <div className="col">
-          <Inspector />
+          <Payment isInspectorOnly={isInspectorOnly} />
+          <Inspector newWindow={true} />
         </div>
       </div>
     </>

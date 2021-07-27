@@ -63,42 +63,42 @@ const paymentMachine = createMachine(
           CANCEL: 'idle',
         },
       },
-      // secureFingerprinting: {
-      //   invoke: {
-      //     id: 'secureFingerprinting',
-      //     src: (context, event) => {
-      //       return fetch(`http://localhost:9000/api/fsm/${context.data.next}`).then((data) => data.json());
-      //     },
-      //     onDone: {
-      //       target: 'challengePayment',
-      //       actions: assign({
-      //         data: (_, event) => event.data,
-      //       }),
-      //     },
-      //     onError: 'rejected',
-      //   },
-      //   on: {
-      //     CANCEL: 'idle',
-      //   },
-      // },
-      // challengePayment: {
-      //   invoke: {
-      //     id: 'challengePayment',
-      //     src: (context, event) => {
-      //       return fetch(`http://localhost:9000/api/fsm/${context.data.next}`).then((data) => data.json());
-      //     },
-      //     onDone: {
-      //       target: 'resolved',
-      //       actions: assign({
-      //         data: (_, event) => event.data,
-      //       }),
-      //     },
-      //     onError: 'rejected',
-      //   },
-      //   on: {
-      //     CANCEL: 'idle',
-      //   },
-      // },
+      secureFingerprinting: {
+        invoke: {
+          id: 'secureFingerprinting',
+          src: (context, event) => {
+            return fetch(`http://localhost:9000/api/fsm/${context.data.next}`).then((data) => data.json());
+          },
+          onDone: {
+            target: 'challengePayment',
+            actions: assign({
+              data: (_, event) => event.data,
+            }),
+          },
+          onError: 'rejected',
+        },
+        on: {
+          CANCEL: 'idle',
+        },
+      },
+      challengePayment: {
+        invoke: {
+          id: 'challengePayment',
+          src: (context, event) => {
+            return fetch(`http://localhost:9000/api/fsm/${context.data.next}`).then((data) => data.json());
+          },
+          onDone: {
+            target: 'resolved',
+            actions: assign({
+              data: (_, event) => event.data,
+            }),
+          },
+          onError: 'rejected',
+        },
+        on: {
+          CANCEL: 'idle',
+        },
+      },
       resolved: { type: 'final' },
       rejected: {
         on: {
