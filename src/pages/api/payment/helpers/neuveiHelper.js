@@ -84,7 +84,7 @@ const payment = async ({
   amount,
   cardHolderName,
   cardNumber,
-  clientRequestId,
+  clientRequestId, // required for liability shift
   currency,
   CVV,
   expirationMonth,
@@ -92,9 +92,9 @@ const payment = async ({
   isFallback,
   isLiabilityShift,
   notificationURL,
-  paResponse,
-  relatedTransactionId,
-  sessionToken,
+  paResponse, // required for liability shift
+  relatedTransactionId, // required for liability shift
+  sessionToken, // required for liability shift
   transactionType,
 }) => {
   const resource = `${NEUVEI_API_BASE_URL}${NEUVEI_API_PAYMENT}`;

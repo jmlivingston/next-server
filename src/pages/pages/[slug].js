@@ -42,9 +42,11 @@ const Pages = () => {
 
   return (
     <>
-      <Head>
-        <title>{slug?.substr(0, 1)?.toUpperCase() + slug?.substr(1)}</title>
-      </Head>
+      {slug && (
+        <Head>
+          <title>{slug?.substr(0, 1)?.toUpperCase() + slug?.substr(1)}</title>
+        </Head>
+      )}
       <Component />
     </>
   );

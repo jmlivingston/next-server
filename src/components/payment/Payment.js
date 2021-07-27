@@ -91,45 +91,40 @@ function Payment({ isInspectorOnly }) {
   const onSubmit = async (event) => {
     event?.preventDefault();
     const isInit = flowState === 'unsubmitted';
-    const isChallenge = flowState === 'challenge';
-    if (isChallenge) {
+    let body;
+    if (isInit) {
+      body = {
+        amount: formState.amount,
+        cardHolderName: formState.cardHolderName,
+        cardNumber: formState.cardNumber,
+        currency: formState.currency,
+        CVV: formState.CVV,
+        expirationMonth: formState.expirationMonth,
+        expirationYear: formState.expirationYear,
+        isFallback,
+        isInit,
+        isLiabilityShift: false,
+        notificationURL: 'http://localhost:9000/pages/payment?challenge=accepted',
+      };
     } else {
-      let body;
-      if (isInit) {
-        body = {
-          amount: formState.amount,
-          cardHolderName: formState.cardHolderName,
-          cardNumber: formState.cardNumber,
-          currency: formState.currency,
-          CVV: formState.CVV,
-          expirationMonth: formState.expirationMonth,
-          expirationYear: formState.expirationYear,
-          isFallback,
-          isInit,
-          isLiabilityShift: false,
-        };
-        body.notificationURL = `http://localhost:9000/pages/payment?challenge=accepted`;
-      } else {
-        body = {
-          amount: formState.amount,
-          cardHolderName: formState.cardHolderName,
-          cardNumber: formState.cardNumber,
-          clientRequestId: paymentResponseState.clientRequestId,
-          clientRequestId: paymentResponseState.clientRequestId,
-          currency: formState.currency,
-          CVV: formState.CVV,
-          expirationMonth: formState.expirationMonth,
-          expirationYear: formState.expirationYear,
-          isFallback,
-          isInit,
-          isLiabilityShift: true,
-          paResponse: isChallenge ? undefined : '{{PaResponse}}', //HACK comes from somewhere?
-          relatedTransactionId: paymentResponseState.transactionId,
-          sessionToken: paymentResponseState.sessionToken,
-        };
-      }
-      callPayment(body);
+      body = {
+        amount: formState.amount,
+        cardHolderName: formState.cardHolderName,
+        cardNumber: formState.cardNumber,
+        clientRequestId: paymentResponseState.clientRequestId,
+        currency: formState.currency,
+        CVV: formState.CVV,
+        expirationMonth: formState.expirationMonth,
+        expirationYear: formState.expirationYear,
+        isFallback,
+        isInit,
+        isLiabilityShift: true,
+        paResponse: flowState === 'challenge' ? undefined : '{{PaResponse}}', //HACK comes from somewhere?
+        relatedTransactionId: paymentResponseState.transactionId,
+        sessionToken: paymentResponseState.sessionToken,
+      };
     }
+    callPayment(body);
   };
 
   const onInputChange = ({ target: { name, value } }) => {
@@ -140,17 +135,17 @@ function Payment({ isInspectorOnly }) {
   };
 
   const setCardHolder = (card) => {
-    switch (card) {
-      case '4000020951595032':
-        setActiveUser(users['CL-BRW1']);
-        break;
-      case '4000027891380961':
-        setActiveUser(users['FL-BRW1']);
-        break;
-      case '4012001037141112':
-        setActiveUser(users['John Smith']);
-        break;
-    }
+    // switch (card) {
+    //   case '4000020951595032':
+    //     setActiveUser(users['CL-BRW1']);
+    //     break;
+    //   case '4000027891380961':
+    //     setActiveUser(users['FL-BRW1']);
+    //     break;
+    //   case '4012001037141112':
+    //     setActiveUser(users['John Smith']);
+    //     break;
+    // }
   };
 
   const onCardChange = (event) => {
@@ -277,19 +272,25 @@ function Payment({ isInspectorOnly }) {
             <Input name="city" strings={strings} value={formState.city} onChange={onInputChange} />
             <Input name="state" strings={strings} value={formState.state} onChange={onInputChange} />{' '}
             <Input name="zipCode" type="number" strings={strings} value={formState.zipCode} onChange={onInputChange} /> */}
-            <div className="text-end">
-              <button className="btn btn-primary mt-3 text-end" disabled={isSubmitting}>
-                {isSubmitting && (
-                  <>
-                    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>{' '}
-                  </>
-                )}
-                {strings.submit}
-              </button>
-            </div>
-            <a href={challengeUrl}>{challengeUrl}</a>
+            {flowState !== 'challenge' && (
+              <div className="text-end">
+                <button className="btn btn-primary mt-3 text-end" disabled={isSubmitting}>
+                  {isSubmitting && (
+                    <>
+                      <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>{' '}
+                    </>
+                  )}
+                  {strings.submit}
+                </button>
+              </div>
+            )}
           </form>
           <h1>{flowState}</h1>
+          {challengeUrl && (
+            <>
+              Click to fullfill challenge: <a href={challengeUrl}>Challenge Link</a>
+            </>
+          )}
           {error && (
             <div className={`alert alert-${error.includes('ERROR') ? 'danger' : 'success'} mt-3`} role="alert">
               {error}
