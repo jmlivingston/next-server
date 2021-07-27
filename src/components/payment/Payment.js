@@ -1,16 +1,16 @@
 import { useMachine } from '@xstate/react';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { API_ROUTES, ROUTES } from '../../config/CONSTANTS';
+import {
+  API_ROUTES,
+  LOCAL_STORAGE_KEY,
+  NEUVEI_TRANSACTION_STATUS,
+  PAYMENT_FLOW_STATE,
+  ROUTES,
+} from '../../config/CONSTANTS';
 import Input from '../common/Input';
 import { defaultFormState, getTestCardHolders, getTestCards, strings } from './paymentConfig';
 import paymentMachine from './paymentMachine';
-
-const FLOW_STATE = Object.freeze({
-  COMPLETE: 'Complete',
-  LIABILITY_SHIFT: 'Liability shift',
-  UNSUBMITTED: 'Not submitted',
-});
 
 function Payment({ isInspectorOnly }) {
   const cards = getTestCards({ useBasic: true });
@@ -20,24 +20,23 @@ function Payment({ isInspectorOnly }) {
   const [state, send] = useMachine(paymentMachine, { devTools: true });
   const [formState, setFormState] = useState({ ...defaultFormState, cardNumber: activeCard.value });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [flowState, setFlowState] = useState('unsubmitted');
+  const [flowState, setFlowState] = useState(PAYMENT_FLOW_STATE.UNSUBMITTED);
   const [error, setError] = useState(false);
   const [paymentResponseState, setPaymentResponseState] = useState({});
   const [isFallback, setIsFallback] = useState(false);
-  const {
-    query: { challenge },
-  } = useRouter();
+  const router = useRouter();
   const showExtraFields = false;
 
   useEffect(() => {
     (async () => {
-      if (challenge === 'accepted') {
-        const paymentDetails = localStorage.getItem('paymentDetails');
+      if (router.query.challenge === 'accepted') {
+        const paymentDetails = localStorage.getItem(LOCAL_STORAGE_KEY.PAYMENT_DETAILS);
         if (paymentDetails) {
-          setFlowState('liabilityShift');
+          setFlowState(PAYMENT_FLOW_STATE.LIABILITY_SHIFT);
           await callPayment(JSON.parse(paymentDetails));
-          localStorage.removeItem('paymentDetails');
+          localStorage.removeItem(LOCAL_STORAGE_KEY.PAYMENT_DETAILS);
         }
+        router.push(ROUTES.PAYMENT.path);
       }
     })();
   }, []);
@@ -57,24 +56,28 @@ function Payment({ isInspectorOnly }) {
     setIsSubmitting(false);
     setError(paymentResponseJson.transactionStatus);
     switch (flowState) {
-      case 'unsubmitted':
-        if (paymentResponseJson.transactionStatus === 'APPROVED' && !isFallback) {
+      case PAYMENT_FLOW_STATE.UNSUBMITTED:
+        if (paymentResponseJson.transactionStatus === NEUVEI_TRANSACTION_STATUS.APPROVED && !isFallback) {
           // Frictionless
-          setFlowState('unsubmitted');
+          setFlowState(PAYMENT_FLOW_STATE.COMPLETE);
         } else {
-          setFlowState(paymentResponseJson.transactionStatus === 'REDIRECT' ? 'challenge' : 'unsubmitted');
+          setFlowState(
+            paymentResponseJson.transactionStatus === NEUVEI_TRANSACTION_STATUS.REDIRECT
+              ? PAYMENT_FLOW_STATE.CHALLENGE
+              : PAYMENT_FLOW_STATE.COMPLETE
+          );
         }
         break;
-      case 'liabilityShift':
-        setFlowState('unsubmitted');
+      case PAYMENT_FLOW_STATE.LIABILITY_SHIFT:
+        setFlowState(PAYMENT_FLOW_STATE.COMPLETE);
         break;
-      case 'challenge':
-        setFlowState('liabilityShift');
+      case PAYMENT_FLOW_STATE.CHALLENGE:
+        setFlowState(PAYMENT_FLOW_STATE.LIABILITY_SHIFT);
         break;
     }
-    if (paymentResponseJson.transactionStatus === 'REDIRECT') {
+    if (paymentResponseJson.transactionStatus === NEUVEI_TRANSACTION_STATUS.REDIRECT) {
       localStorage.setItem(
-        'paymentDetails',
+        LOCAL_STORAGE_KEY.PAYMENT_DETAILS,
         JSON.stringify({
           amount: formState.amount,
           cardHolderName: formState.cardHolderName,
@@ -96,7 +99,7 @@ function Payment({ isInspectorOnly }) {
 
   const onSubmit = async (event) => {
     event?.preventDefault();
-    const isInit = flowState === 'unsubmitted';
+    const isInit = flowState === PAYMENT_FLOW_STATE.UNSUBMITTED;
     let body = {
       amount: formState.amount,
       cardHolderName: formState.cardHolderName,
