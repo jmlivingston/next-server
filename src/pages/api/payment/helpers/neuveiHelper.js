@@ -1,6 +1,8 @@
-import fetch from 'node-fetch';
+const fetch = require('node-fetch');
+const DOMParser = require('dom-parser');
 import {
   NEUVEI_API_BASE_URL,
+  NEUVEI_API_CHALLENGE_SIMULATOR,
   NEUVEI_API_GET_SESSION,
   NEUVEI_API_INIT_PAYMENT,
   NEUVEI_API_PAYMENT,
@@ -80,6 +82,25 @@ const initPayment = async ({
   }
 };
 
+const getChallengeUrl = async ({ paymentOption }) => {
+  if (paymentOption.card.threeD.acsUrl) {
+    const challengeUrl = NEUVEI_API_CHALLENGE_SIMULATOR({
+      acsUrl: paymentOption.card.threeD.acsUrl,
+      cReq: paymentOption.card.threeD.cReq,
+    });
+    const response = await fetch(challengeUrl, {
+      headers: {
+        'Content-Type': 'text/html',
+      },
+    });
+    const body = await response.text();
+    const parser = new DOMParser();
+    const dom = parser.parseFromString(body, 'text/html');
+    const textArea = dom.getElementsByTagName('textarea')[0];
+    return textArea.innerHTML;
+  }
+};
+
 const payment = async ({
   amount,
   cardHolderName,
@@ -130,10 +151,11 @@ const payment = async ({
 
   const paymentResponse = await fetch(resource, init);
   const paymentResponseJson = await paymentResponse.json();
+  const challengeUrl = await getChallengeUrl({ paymentOption: paymentResponseJson.paymentOption });
   if (paymentResponseJson.status === 'ERROR') {
     throw new Error(JSON.stringify(paymentResponseJson));
   } else {
-    return paymentResponseJson;
+    return { ...paymentResponseJson, challengeUrl };
   }
 };
 

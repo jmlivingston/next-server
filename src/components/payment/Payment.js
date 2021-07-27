@@ -1,7 +1,7 @@
 import { useMachine } from '@xstate/react';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { API_ROUTES, NEUVEI_API_CHALLENGE_SIMULATOR } from '../../config/CONSTANTS';
+import { API_ROUTES } from '../../config/CONSTANTS';
 import Input from '../common/Input';
 import { defaultFormState, getTestCardHolders, getTestCards, strings } from './paymentConfig';
 import paymentMachine from './paymentMachine';
@@ -167,14 +167,6 @@ function Payment({ isInspectorOnly }) {
     });
     setIsFallback(activeUser.notes.includes('Fallback'));
   };
-
-  const challengeUrl = paymentResponseState?.paymentOption?.card?.threeD?.acsUrl
-    ? NEUVEI_API_CHALLENGE_SIMULATOR({
-        acsUrl: paymentResponseState.paymentOption.card.threeD.acsUrl,
-        cReq: paymentResponseState.paymentOption.card.threeD.cReq,
-      })
-    : null;
-
   return (
     <>
       {isInspectorOnly ? null : (
@@ -294,9 +286,9 @@ function Payment({ isInspectorOnly }) {
                 )}
               </form>
               <h1>{flowState}</h1>
-              {challengeUrl && (
+              {paymentResponseState?.challengeUrl && (
                 <>
-                  Click to fullfill challenge: <a href={challengeUrl}>Challenge Link</a>
+                  Click to fullfill challenge: <a href={paymentResponseState?.challengeUrl}>Challenge Link</a>
                 </>
               )}
               {error && (

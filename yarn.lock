@@ -1752,6 +1752,11 @@ doctrine@^3.0.0:
   dependencies:
     esutils "^2.0.2"
 
+dom-parser@^0.1.6:
+  version "0.1.6"
+  resolved "https://viking.jfrog.io/viking/api/npm/npm/dom-parser/-/dom-parser-0.1.6.tgz#696c633b535ab3291424eb5bf58ee426f64632ca"
+  integrity sha1-aWxjO1NasykUJOtb9Y7kJvZGMso=
+
 domain-browser@4.19.0:
   version "4.19.0"
   resolved "https://viking.jfrog.io/viking/api/npm/npm/domain-browser/-/domain-browser-4.19.0.tgz#1093e17c0a17dbd521182fe90d49ac1370054af1"
