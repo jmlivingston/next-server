@@ -5,6 +5,8 @@ import fetch from 'node-fetch';
 import { NEUVEI_3D_MODE, NEUVEI_API_CHALLENGE_SIMULATOR } from '../../../../config/CONSTANTS';
 import { getSessionToken, initPayment, payment } from '../helpers/neuveiHelper';
 
+const API_TIMEOUT = 20000;
+
 // describe('payment params', () => {
 //   Object.keys(NEUVEI_3D_MODE).map((mode) => {
 //     test(mode, () => {
@@ -98,6 +100,9 @@ const testApi = async ({ cardHolderName, cardNumber, mode }) => {
       );
       break;
   }
+  if (paymentResponse.transactionStatus === 'ERROR') {
+    console.log(JSON.stringify(paymentResponse, null, 2));
+  }
   expect(paymentResponse.status).toBe('SUCCESS');
   expect(paymentResponse.transactionStatus).toBe('APPROVED');
 };
@@ -116,7 +121,7 @@ describe('payment flows', () => {
         mode: NEUVEI_3D_MODE.CHALLENGE,
       });
     },
-    10000
+    API_TIMEOUT
   );
 
   test(
@@ -128,7 +133,7 @@ describe('payment flows', () => {
         mode: NEUVEI_3D_MODE.FRICTIONLESS,
       });
     },
-    10000
+    API_TIMEOUT
   );
 
   test(
@@ -140,6 +145,6 @@ describe('payment flows', () => {
         mode: NEUVEI_3D_MODE.FALLBACK,
       });
     },
-    10000
+    API_TIMEOUT
   );
 });

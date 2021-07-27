@@ -12,7 +12,7 @@ const getInitPaymentParams = ({
   expirationYear,
   methodNotificationUrl,
   platformType,
-  sessionToken, // comes from getSessionToken
+  sessionToken,
 }) => {
   return {
     merchantSiteId: NEUVEI_MERCHANT_SITE_ID,
