@@ -98,7 +98,7 @@ function Payment({ isInspectorOnly }) {
   };
 
   const onSubmit = async (event) => {
-    event?.preventDefault();
+    event.preventDefault();
     const isInit = flowState === PAYMENT_FLOW_STATE.UNSUBMITTED;
     let body = {
       amount: formState.amount,
