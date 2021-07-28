@@ -60,7 +60,7 @@ const CardTable = () => {
             <table className="table table-sm">
               <thead>
                 <tr>
-                  {/* <th>#</th> */}
+                  <th>#</th>
                   <th>Number</th>
                   {/* <th>Type</th> */}
                   <th>Country</th>
@@ -74,7 +74,7 @@ const CardTable = () => {
                 {Object.entries(cards).map(([key, card], index) => {
                   return (
                     <tr key={key}>
-                      {/* <td>{index}</td> */}
+                      <td>{index}</td>
                       <td>{card.value}</td>
                       {/* <td>{card.type}</td> */}
                       <td>{card.country}</td>

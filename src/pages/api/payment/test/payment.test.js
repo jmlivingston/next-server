@@ -1,29 +1,8 @@
-// import fs from 'fs';
-// import path from 'path';
-// import { getPaymentParams } from '../../payment';
 import fetch from 'node-fetch';
 import { NEUVEI_3D_MODE, NEUVEI_API_CHALLENGE_SIMULATOR } from '../../../../config/CONSTANTS';
 import { getSessionToken, initPayment, payment } from '../helpers/neuveiHelper';
 
 const API_TIMEOUT = 20000;
-
-// describe('payment params', () => {
-//   Object.keys(NEUVEI_3D_MODE).map((mode) => {
-//     test(mode, () => {
-//       const params = getPaymentParams({ mode });
-//       const source = fs
-//         .readFileSync(path.join(path.resolve(), `src/pages/api/params/test/payment/source/${mode}.mock.json`))
-//         .toString()
-//         .trim();
-//       const target = JSON.stringify(params, null, 2).trim();
-//       fs.writeFileSync(path.join(path.resolve(), `src/pages/api/params/test/payment/target/${mode}.mock.json`), target);
-//       if (source !== target) {
-//         console.log(`${mode} ERROR`);
-//       }
-//       expect(source).toBe(target);
-//     });
-//   });
-// });
 
 const cardDetails = {
   currency: 'GBP',
@@ -84,7 +63,7 @@ const testApi = async ({ amount, cardHolderName, cardNumber, mode }) => {
     paymentResponse = await payment(paymentParams);
   }
   const flow = logs.join(' -> ');
-  console.log(flow); //, JSON.stringify(paymentResponse, null, 2));
+  console.log(flow);
   switch (mode) {
     case NEUVEI_3D_MODE.CHALLENGE:
       expect(flow).toBe(
