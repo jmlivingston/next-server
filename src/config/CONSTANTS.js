@@ -76,6 +76,7 @@ const ROUTES = Object.freeze({
     path: `${BASE_URL}/pages/payment?challenge=accepted`,
     disabled: true,
   },
+  REDIRECT: { display: 'Redirect', path: '/pages/redirector', disabled },
 });
 
 export {

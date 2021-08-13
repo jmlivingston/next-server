@@ -8,6 +8,7 @@ import CardTable from '../../components/payment/CardTable';
 import PaymentChallenge from '../../components/payment/PaymentChallenge';
 import PaymentComplete from '../../components/payment/PaymentComplete';
 import PaymentContainer from '../../components/payment/PaymentContainer';
+import Redirector from '../../components/payment/Redirector';
 
 const Pages = () => {
   const router = useRouter();
@@ -40,6 +41,10 @@ const Pages = () => {
       break;
     case 'payment-complete':
       Component = PaymentComplete;
+      break;
+    case 'redirector':
+      Component = Redirector;
+      break;
     default:
       Component = () => null;
       break;
