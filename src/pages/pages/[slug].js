@@ -5,6 +5,7 @@ import ConvertFile from '../../components/ConvertFile';
 import FsmContainer from '../../components/fsm/FsmContainer';
 import Jenkins from '../../components/Jenkins';
 import CardTable from '../../components/payment/CardTable';
+import IFrameModal from '../../components/payment/IFrameModal';
 import PaymentChallenge from '../../components/payment/PaymentChallenge';
 import PaymentComplete from '../../components/payment/PaymentComplete';
 import PaymentContainer from '../../components/payment/PaymentContainer';
@@ -22,6 +23,9 @@ const Pages = () => {
       break;
     case 'fsm':
       Component = FsmContainer;
+      break;
+    case 'iframe-modal':
+      Component = IFrameModal;
       break;
     case 'jenkins':
       Component = Jenkins;

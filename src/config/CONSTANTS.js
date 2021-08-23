@@ -64,6 +64,7 @@ const ROUTES = Object.freeze({
   },
   FSM: { disabled, display: 'Simple FSM', path: '/pages/fsm' },
   HOME: { display: 'Home', path: '/' },
+  IFRAME_MODAL: { display: 'IFrame Modal', path: '/pages/iframe-modal' },
   JENKINS: { disabled, display: 'Jenkins', path: '/pages/jenkins' },
   OPTIMIZELY: { disabled, display: 'Optimizely', path: '/reservations/start' },
   PAYMENT: { display: 'Payment', path: '/pages/payment' },

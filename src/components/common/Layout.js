@@ -6,7 +6,7 @@ import { ROUTES } from '../../config/CONSTANTS';
 function Layout({ Component, pageProps }) {
   const { pathname } = useRouter();
   const [isNavOpen, setIsNavOpen] = useState(false);
-  return (
+  return pageProps.showLayout ? (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid">
@@ -48,6 +48,8 @@ function Layout({ Component, pageProps }) {
         <Component {...pageProps} />
       </div>
     </>
+  ) : (
+    <Component {...pageProps} />
   );
 }
 
