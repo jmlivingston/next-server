@@ -3,26 +3,38 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { ROUTES } from '../../config/CONSTANTS';
 
+const COUNTER_INTERVAL = 2;
+
 const Redirector = () => {
   const { query } = useRouter();
-  const [counter, setCounter] = useState(5);
+  const [counter, setCounter] = useState(COUNTER_INTERVAL);
   let intervalHandle;
 
   useEffect(() => {
+    setCounter(3);
     if (query.redirect) {
       intervalHandle = setInterval(() => {
         setCounter((prevCounter) => {
           if (prevCounter === 1) {
+            setCounter(COUNTER_INTERVAL);
             clearInterval(intervalHandle);
             if (typeof window !== 'undefined' && query.redirect) {
-              window.location.href = query.redirect;
+              if (query.top) {
+                window.top.location.href = query.redirect;
+              } else {
+                window.location.href = query.redirect;
+              }
             }
+          } else {
+            return prevCounter - 1;
           }
-          return prevCounter - 1;
         });
       }, 1000);
-      return () => clearTimeout(intervalHandle);
     }
+    return () => {
+      clearTimeout(intervalHandle);
+      setCounter(COUNTER_INTERVAL);
+    };
   }, [query.redirect]);
 
   return (
@@ -31,7 +43,7 @@ const Redirector = () => {
         <>
           <h1>Simulating a success challenge</h1>
           Redirecting after challenge to {query.redirect} in:
-          <h2>{counter.toString()} seconds!</h2>
+          <h2>{counter?.toString()} seconds!</h2>
         </>
       ) : (
         <div className="alert alert-danger">
