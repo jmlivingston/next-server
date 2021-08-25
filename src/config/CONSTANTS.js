@@ -10,6 +10,12 @@ const AWS_S3_BUCKET = process.env[`AWS_S3_BUCKET_${ENV_KEY}`];
 const AWS_SECRET_ACCESS_KEY = process.env[`AWS_SECRET_ACCESS_KEY_${ENV_KEY}`];
 const AWS_SIGNATURE_VERSION = 'v4';
 
+const IMAGE_HANDLER_CONFIG = Object.freeze({
+  API_BASE_URL: process.env.NEXT_PUBLIC_IMAGE_HANDLER_CONFIG_API_BASE_URL,
+  BUCKET: process.env.NEXT_PUBLIC_IMAGE_HANDLER_CONFIG_BUCKET,
+  SAMPLE_IMAGE: process.env.NEXT_PUBLIC_IMAGE_HANDLER_CONFIG_SAMPLE_IMAGE,
+});
+
 const LOCAL_STORAGE_KEY = Object.freeze({
   PAYMENT_DETAILS: 'PAYMENT_DETAILS',
 });
@@ -65,6 +71,7 @@ const ROUTES = Object.freeze({
   FSM: { disabled, display: 'Simple FSM', path: '/pages/fsm' },
   HOME: { display: 'Home', path: '/' },
   IFRAME_MODAL: { display: 'IFrame Modal', path: '/pages/iframe-modal' },
+  IMAGE: { display: 'Image', path: 'pages/image' },
   JENKINS: { disabled, display: 'Jenkins', path: '/pages/jenkins' },
   OPTIMIZELY: { disabled, display: 'Optimizely', path: '/reservations/start' },
   PAYMENT: { display: 'Payment', path: '/pages/payment' },
@@ -87,6 +94,7 @@ export {
   AWS_SECRET_ACCESS_KEY,
   AWS_SIGNATURE_VERSION,
   ENV_KEY,
+  IMAGE_HANDLER_CONFIG,
   LOCAL_STORAGE_KEY,
   NEUVEI_API_BASE_URL,
   NEUVEI_API_GET_SESSION,

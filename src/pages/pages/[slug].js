@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import ConvertFile from '../../components/ConvertFile';
 import FsmContainer from '../../components/fsm/FsmContainer';
+import Image from '../../components/image/ImageContainer';
 import Jenkins from '../../components/Jenkins';
 import CardTable from '../../components/payment/CardTable';
 import IFrameModal from '../../components/payment/IFrameModal';
@@ -26,6 +27,9 @@ const Pages = () => {
       break;
     case 'iframe-modal':
       Component = IFrameModal;
+      break;
+    case 'image':
+      Component = Image;
       break;
     case 'jenkins':
       Component = Jenkins;
