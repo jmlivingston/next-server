@@ -17,7 +17,7 @@ const Tooltip = ({ isVisible, location, text }) => {
   }
   const offset = location === 'bottom' ? tooltipRef.current?.clientHeight : -3;
   const top = (y - tooltipRef.current?.clientHeight || 0) + offset;
-  const visibility = top === 0 ? 'hidden' : 'visible';
+  const visibility = top <= 0 ? 'hidden' : 'visible';
   return isVisible && text ? (
     <div
       className={`tooltip fade bs-tooltip-${location} show`}

@@ -8,9 +8,8 @@ const data = new Array(50)
     cols.reduce((acc, _value, colIndex) => ({ ...acc, [`col${colIndex}`]: `value${colIndex}${rowIndex}` }), {})
   );
 
-const isMobile = true;
-
 const TableWithTooltip = () => {
+  const [isMobile, setIsMobile] = useState(true);
   const [tooltip, setTooltip] = useState();
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
 
@@ -28,7 +27,9 @@ const TableWithTooltip = () => {
 
   return (
     <>
-      {isTooltipVisible.toString()}
+      <button className="btn btn-primary btn-sm" onClick={() => setIsMobile(!isMobile)}>
+        Simulate Mobile: {isMobile.toString()}
+      </button>
       <table className="table">
         <thead>
           <tr>
@@ -53,11 +54,11 @@ const TableWithTooltip = () => {
                     if (isMobile) {
                       event.stopPropagation();
                       setTooltip(datum.col0);
-                      setIsTooltipVisible(!isTooltipVisible);
+                      setIsTooltipVisible(true);
                     }
                   }}
-                  onFocus={() => setTooltip(datum.col0)}
-                  onMouseOver={() => setTooltip(datum.col0)}
+                  onFocus={() => !isMobile && setTooltip(datum.col0)}
+                  onMouseOver={() => !isMobile && setTooltip(datum.col0)}
                 >
                   {datum[key]}
                 </td>

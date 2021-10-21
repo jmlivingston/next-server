@@ -12,7 +12,7 @@ const useMousePosition = () => {
     };
     window.addEventListener(
       'mousemove',
-      _debounce((e) => setFromEvent(e), 0)
+      _debounce((e) => setFromEvent(e), 10)
     );
     return () => window.removeEventListener('mousemove', setFromEvent);
   }, []);
