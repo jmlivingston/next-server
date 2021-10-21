@@ -3,3 +3,40 @@ pre {
   color: #333333;
   padding: 8px;
 }
+
+.cursor-pointer {
+  /* cursor: pointer; */
+}
+
+.tooltip > .arrow {
+  position: absolute;
+  display: block;
+  width: 0.8rem;
+  height: 0.4rem;
+}
+
+.tooltip > .arrow:before {
+  top: 0;
+  border-color: transparent;
+  position: absolute;
+  content: '';
+  border-style: solid;
+}
+
+.tooltip.bs-tooltip-top > .arrow {
+  bottom: 0;
+}
+
+.tooltip.bs-tooltip-top > .arrow:before {
+  border-top-color: #000;
+  border-width: 0.4rem 0.4rem 0;
+}
+
+.tooltip.bs-tooltip-bottom > .arrow {
+  top: 0;
+}
+
+.tooltip.bs-tooltip-bottom > .arrow:before {
+  border-bottom-color: #000;
+  border-width: 0 0.4rem 0.4rem;
+}

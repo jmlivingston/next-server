@@ -6,6 +6,7 @@ import FsmContainer from '../../components/fsm/FsmContainer';
 import Image from '../../components/image/ImageContainer';
 import Jenkins from '../../components/Jenkins';
 import PhoneNumber from '../../components/misc/PhoneNumber';
+import TableWithTooltip from '../../components/misc/TableWithTooltip';
 import CardTable from '../../components/payment/CardTable';
 import IFrameModal from '../../components/payment/IFrameModal';
 import PaymentChallenge from '../../components/payment/PaymentChallenge';
@@ -56,6 +57,9 @@ const Pages = () => {
       break;
     case 'redirector':
       Component = Redirector;
+      break;
+    case 'table-tooltip':
+      Component = TableWithTooltip;
       break;
     default:
       Component = () => null;
