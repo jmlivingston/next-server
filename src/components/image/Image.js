@@ -28,9 +28,10 @@ const Image = ({ alt, baseUrl, bucket, className, fit, height, imageKey, isRespo
       setEncodedFormat(`${baseUrl}${btoa(unescape(encodeURIComponent(format)))}`);
     }
     setCalculatedWidth(newWidth);
-  }, [size]);
+  }, [baseUrl, bucket, calculatedWidth, fit, height, imageKey, size, width]);
 
   return encodedFormat ? (
+    // eslint-disable-next-line @next/next/no-img-element
     <img
       alt={alt}
       src={encodedFormat}

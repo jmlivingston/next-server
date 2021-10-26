@@ -1,16 +1,16 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { ROUTES } from '../../config/CONSTANTS';
+import { ROUTES } from '../../config/ROUTES';
 
 const COUNTER_INTERVAL = 2;
 
 const Redirector = () => {
   const { query } = useRouter();
   const [counter, setCounter] = useState(COUNTER_INTERVAL);
-  let intervalHandle;
 
   useEffect(() => {
+    let intervalHandle;
     setCounter(3);
     if (query.redirect) {
       intervalHandle = setInterval(() => {
@@ -35,7 +35,7 @@ const Redirector = () => {
       clearTimeout(intervalHandle);
       setCounter(COUNTER_INTERVAL);
     };
-  }, [query.redirect]);
+  }, [query.redirect, query.top]);
 
   return (
     <div className="text-center">

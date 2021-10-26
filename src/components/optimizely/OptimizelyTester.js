@@ -28,7 +28,7 @@ const OptimizelyTester = ({ config }) => {
       variation,
     });
     setMocks(mocks);
-  }, [isMock]);
+  }, [activeExperiment.variations, experiment, isMock]);
 
   return (
     <OptimizelyProvider mocks={isMock ? mocks : undefined}>

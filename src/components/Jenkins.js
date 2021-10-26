@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { NEXT_PUBLIC_JENKINS_URL, NEXT_PUBLIC_JENKINS_USER_TOKEN } from '../config/CONSTANTS';
 
 function Jenkins() {
-  console.log(NEXT_PUBLIC_JENKINS_URL);
   const Authorization = `Basic ${NEXT_PUBLIC_JENKINS_USER_TOKEN}`;
   const [data, setData] = useState();
 
-  async function getListOfJenkinsJobs() {
+  const getListOfJenkinsJobs = useCallback(async () => {
     const response = await fetch(
       `${NEXT_PUBLIC_JENKINS_URL}/json?token=${NEXT_PUBLIC_JENKINS_USER_TOKEN}`, //?tree=jobs[MVJ]`,
       {
@@ -19,13 +18,13 @@ function Jenkins() {
       }
     );
     setData(response);
-  }
+  }, [Authorization]);
 
   useEffect(() => {
     (async () => {
       getListOfJenkinsJobs();
     })();
-  }, []);
+  }, [getListOfJenkinsJobs]);
 
   return (
     <div>

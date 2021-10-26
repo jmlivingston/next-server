@@ -30,12 +30,17 @@
     "dotenv": "^10.0.0",
     "eslint": "7.29.0",
     "eslint-config-next": "11.0.1",
+    "eslint-config-prettier": "^8.3.0",
     "jest": "^27.0.6",
     "node-fetch": "^2.6.1",
     "prettier": "^2.3.1",
     "uuid": "^8.3.2"
   },
   "prettier": {
+    "extends": [
+      "next",
+      "prettier"
+    ],
     "printWidth": 120,
     "singleQuote": true
   },

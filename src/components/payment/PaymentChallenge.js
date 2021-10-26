@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import React from 'react';
-import { NEUVEI_API_CHALLENGE, ROUTES } from '../../config/CONSTANTS';
+import { NEUVEI_API_CHALLENGE } from '../../config/CONSTANTS';
+import { ROUTES } from '../../config/ROUTES';
 import { strings } from './paymentConfig';
 
 const PaymentChallenge = () => {

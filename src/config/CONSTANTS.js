@@ -1,9 +1,3 @@
-const BASE_URL = typeof window !== 'undefined' ? window.location.origin : '';
-const API_ROUTES = Object.freeze({
-  PAYMENT_INIT: `${BASE_URL}/api/payment/init`,
-  PAYMENT: `${BASE_URL}/api/payment`,
-});
-
 const ENV_KEY = 'B';
 const AWS_ACCESS_KEY_ID = process.env[`AWS_ACCESS_KEY_ID_${ENV_KEY}`];
 const AWS_S3_BUCKET = process.env[`AWS_S3_BUCKET_${ENV_KEY}`];
@@ -62,33 +56,8 @@ const PAYMENT_FLOW_STATE = Object.freeze({
 });
 
 const disabled = true;
-const ROUTES = Object.freeze({
-  CONVERT_FILE: {
-    disabled,
-    display: 'Convert File',
-    path: '/pages/convert-file',
-  },
-  FSM: { disabled, display: 'Simple FSM', path: '/pages/fsm' },
-  HOME: { display: 'Home', path: '/' },
-  IFRAME_MODAL: { display: 'IFrame Modal', path: '/pages/iframe-modal' },
-  IMAGE: { display: 'Image', path: 'pages/image' },
-  JENKINS: { disabled, display: 'Jenkins', path: '/pages/jenkins' },
-  OPTIMIZELY: { disabled, display: 'Optimizely', path: '/reservations/start' },
-  PAYMENT: { display: 'Payment', path: '/pages/payment' },
-  PAYMENT_DIAGRAM: { display: 'Payment Diagram', path: '/pages/payment-diagram' },
-  PAYMENT_CARD_TABLE: { display: 'Payment Cards', path: '/pages/payment-card-table' },
-  PAYMENT_CHALLENGE: { display: 'Payment Challenge', path: '/pages/payment-challenge', disabled },
-  PAYMENT_COMPLETE: { display: 'Payment Complete', path: '/pages/payment-complete', disabled },
-  PAYMENT_NOTIFICATION_URL: {
-    display: 'Payment Complete',
-    path: `${BASE_URL}/pages/payment?challenge=accepted`,
-    disabled: true,
-  },
-  REDIRECT: { display: 'Redirect', path: '/pages/redirector', disabled },
-});
 
 export {
-  API_ROUTES,
   AWS_ACCESS_KEY_ID,
   AWS_S3_BUCKET,
   AWS_SECRET_ACCESS_KEY,
@@ -112,7 +81,6 @@ export {
   NEXT_PUBLIC_JENKINS_USER_TOKEN,
   OPTIMIZELY_CONFIG,
   PAYMENT_FLOW_STATE,
-  ROUTES,
 };
 
 // Example OPTIMIZELY_CONFIG

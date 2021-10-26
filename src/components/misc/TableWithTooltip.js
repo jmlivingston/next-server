@@ -23,7 +23,7 @@ const TableWithTooltip = () => {
     return () => {
       window.removeEventListener('click', handleWindowClick);
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <>

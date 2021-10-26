@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { ROUTES } from '../../config/CONSTANTS';
+import { ROUTES } from '../../config/ROUTES';
 
 function Layout({ Component, pageProps }) {
   const { pathname } = useRouter();
@@ -27,7 +27,7 @@ function Layout({ Component, pageProps }) {
           </button>
           <div className={`collapse navbar-collapse${isNavOpen ? ' show' : ''}`}>
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              {Object.entries(ROUTES)
+              {/* {Object.entries(ROUTES)
                 .filter(([key, route]) => !route.disabled && key !== 'HOME')
                 .map(([key, route]) => {
                   return (
@@ -39,7 +39,7 @@ function Layout({ Component, pageProps }) {
                       </Link>
                     </li>
                   );
-                })}
+                })} */}
             </ul>
           </div>
         </div>

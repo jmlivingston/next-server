@@ -1,13 +1,8 @@
 import { useMachine } from '@xstate/react';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import {
-  API_ROUTES,
-  LOCAL_STORAGE_KEY,
-  NEUVEI_TRANSACTION_STATUS,
-  PAYMENT_FLOW_STATE,
-  ROUTES,
-} from '../../config/CONSTANTS';
+import React, { useCallback, useEffect, useState } from 'react';
+import { LOCAL_STORAGE_KEY, NEUVEI_TRANSACTION_STATUS, PAYMENT_FLOW_STATE } from '../../config/CONSTANTS';
+import { API_ROUTES, ROUTES } from '../../config/ROUTES';
 import Input from '../common/Input';
 import { defaultFormState, getTestCardHolders, getTestCards, strings } from './paymentConfig';
 import paymentMachine from './paymentMachine';
@@ -39,63 +34,76 @@ function Payment({ isInspectorOnly }) {
         router.push(ROUTES.PAYMENT.path);
       }
     })();
-  }, []);
+  }, [callPayment, router]);
 
-  const callPayment = async (body) => {
-    setError();
-    setIsSubmitting(true);
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    const paymentResponse = await fetch(API_ROUTES.PAYMENT, {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers,
-    });
-    let paymentResponseJson = await paymentResponse.json();
-    setPaymentResponseState({ ...body, ...paymentResponseJson });
-    setIsSubmitting(false);
-    setError(paymentResponseJson.transactionStatus);
-    switch (flowState) {
-      case PAYMENT_FLOW_STATE.UNSUBMITTED:
-        if (paymentResponseJson.transactionStatus === NEUVEI_TRANSACTION_STATUS.APPROVED && !isFallback) {
-          // Frictionless
+  const callPayment = useCallback(
+    async (body) => {
+      setError();
+      setIsSubmitting(true);
+      const headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      const paymentResponse = await fetch(API_ROUTES.PAYMENT, {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers,
+      });
+      let paymentResponseJson = await paymentResponse.json();
+      setPaymentResponseState({ ...body, ...paymentResponseJson });
+      setIsSubmitting(false);
+      setError(paymentResponseJson.transactionStatus);
+      switch (flowState) {
+        case PAYMENT_FLOW_STATE.UNSUBMITTED:
+          if (paymentResponseJson.transactionStatus === NEUVEI_TRANSACTION_STATUS.APPROVED && !isFallback) {
+            // Frictionless
+            setFlowState(PAYMENT_FLOW_STATE.COMPLETE);
+          } else {
+            setFlowState(
+              paymentResponseJson.transactionStatus === NEUVEI_TRANSACTION_STATUS.REDIRECT
+                ? PAYMENT_FLOW_STATE.CHALLENGE
+                : PAYMENT_FLOW_STATE.COMPLETE
+            );
+          }
+          break;
+        case PAYMENT_FLOW_STATE.LIABILITY_SHIFT:
           setFlowState(PAYMENT_FLOW_STATE.COMPLETE);
-        } else {
-          setFlowState(
-            paymentResponseJson.transactionStatus === NEUVEI_TRANSACTION_STATUS.REDIRECT
-              ? PAYMENT_FLOW_STATE.CHALLENGE
-              : PAYMENT_FLOW_STATE.COMPLETE
-          );
-        }
-        break;
-      case PAYMENT_FLOW_STATE.LIABILITY_SHIFT:
-        setFlowState(PAYMENT_FLOW_STATE.COMPLETE);
-        break;
-      case PAYMENT_FLOW_STATE.CHALLENGE:
-        setFlowState(PAYMENT_FLOW_STATE.LIABILITY_SHIFT);
-        break;
-    }
-    if (paymentResponseJson.transactionStatus === NEUVEI_TRANSACTION_STATUS.REDIRECT) {
-      localStorage.setItem(
-        LOCAL_STORAGE_KEY.PAYMENT_DETAILS,
-        JSON.stringify({
-          amount: formState.amount,
-          cardHolderName: formState.cardHolderName,
-          cardNumber: formState.cardNumber,
-          clientRequestId: paymentResponseJson.clientRequestId,
-          currency: formState.currency,
-          CVV: formState.CVV,
-          expirationMonth: formState.expirationMonth,
-          expirationYear: formState.expirationYear,
-          isFallback: paymentResponseJson.isFallback,
-          isInit: paymentResponseJson.isInit,
-          isLiabilityShift: true,
-          relatedTransactionId: paymentResponseJson.transactionId,
-          sessionToken: paymentResponseJson.sessionToken,
-        })
-      );
-    }
-  };
+          break;
+        case PAYMENT_FLOW_STATE.CHALLENGE:
+          setFlowState(PAYMENT_FLOW_STATE.LIABILITY_SHIFT);
+          break;
+      }
+      if (paymentResponseJson.transactionStatus === NEUVEI_TRANSACTION_STATUS.REDIRECT) {
+        localStorage.setItem(
+          LOCAL_STORAGE_KEY.PAYMENT_DETAILS,
+          JSON.stringify({
+            amount: formState.amount,
+            cardHolderName: formState.cardHolderName,
+            cardNumber: formState.cardNumber,
+            clientRequestId: paymentResponseJson.clientRequestId,
+            currency: formState.currency,
+            CVV: formState.CVV,
+            expirationMonth: formState.expirationMonth,
+            expirationYear: formState.expirationYear,
+            isFallback: paymentResponseJson.isFallback,
+            isInit: paymentResponseJson.isInit,
+            isLiabilityShift: true,
+            relatedTransactionId: paymentResponseJson.transactionId,
+            sessionToken: paymentResponseJson.sessionToken,
+          })
+        );
+      }
+    },
+    [
+      flowState,
+      formState.CVV,
+      formState.amount,
+      formState.cardHolderName,
+      formState.cardNumber,
+      formState.currency,
+      formState.expirationMonth,
+      formState.expirationYear,
+      isFallback,
+    ]
+  );
 
   const onSubmit = async (event) => {
     event.preventDefault();
