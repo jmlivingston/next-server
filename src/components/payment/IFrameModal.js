@@ -52,7 +52,9 @@ const IFrameModal = () => {
             onLoad={onLoad}
             src={
               isModalOpen
-                ? `http://localhost:9001/pages/redirector?redirect=https://www.google.com${isTop ? '&top=true' : ''}`
+                ? `https://viking-cruises.github.io/olb-mock-redirector?redirect=https://www.google.com${
+                    isTop ? '&top=true' : ''
+                  }`
                 : null
             }
             sandbox="allow-downloads allow-forms allow-modals allow-orientation-lock 
